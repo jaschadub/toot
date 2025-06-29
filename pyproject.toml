@@ -56,7 +56,7 @@ dev = [
 "Issues" = "https://github.com/tootles-dev/tootles/issues"
 
 [project.scripts]
-tootles = "tootles.cli.main:main"
+tootles = "tootles.cli.main:cli"
 
 [tool.hatch.version]
 path = "tootles/__init__.py"

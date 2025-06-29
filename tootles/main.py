@@ -5,6 +5,7 @@ from typing import Optional
 from textual.app import App, ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
+from textual.css.query import NoMatches
 from textual.widgets import Footer, Header, Static
 
 from tootles.api.client import MastodonClient
@@ -51,21 +52,20 @@ class TootlesApp(App):
 
     async def on_mount(self) -> None:
         """Initialize the application."""
-        # Load configuration
-        await self.config_manager.load_config()
+        # Configuration is already loaded in constructor
+        config = self.config_manager.config
 
         # Initialize API client if configured
-        config = self.config_manager.get_config()
-        if config.mastodon.instance_url and config.mastodon.access_token:
+        if config.instance_url and config.access_token:
             self.api_client = MastodonClient(
-                instance_url=config.mastodon.instance_url,
-                access_token=config.mastodon.access_token
+                instance_url=config.instance_url,
+                access_token=config.access_token
             )
 
         # Load and apply theme
-        await self.theme_manager.load_theme(config.ui.theme)
-        if self.theme_manager.current_theme_css:
-            self.stylesheet.add_source(self.theme_manager.current_theme_css)
+        await self.theme_manager.load_theme(config.theme)
+        if self.theme_manager.current_css:
+            self.stylesheet.add_source(self.theme_manager.current_css)
 
     def compose(self) -> ComposeResult:
         """Create the main application layout."""
@@ -210,22 +210,22 @@ class TootlesApp(App):
 
     async def action_toggle_theme(self) -> None:
         """Toggle between available themes."""
-        config = self.config_manager.get_config()
+        config = self.config_manager.config
         themes = ["default", "dark", "light", "high-contrast"]
 
-        current_index = themes.index(config.ui.theme) if config.ui.theme in themes else 0
+        current_index = themes.index(config.theme) if config.theme in themes else 0
         next_index = (current_index + 1) % len(themes)
         next_theme = themes[next_index]
 
         # Update config
-        config.ui.theme = next_theme
-        await self.config_manager.save_config()
+        config.theme = next_theme
+        self.config_manager.save()
 
         # Apply new theme
         await self.theme_manager.load_theme(next_theme)
-        if self.theme_manager.current_theme_css:
+        if self.theme_manager.current_css:
             self.stylesheet.clear()
-            self.stylesheet.add_source(self.theme_manager.current_theme_css)
+            self.stylesheet.add_source(self.theme_manager.current_css)
 
         self.notify(f"Switched to {next_theme} theme", severity="success")
 
@@ -237,11 +237,11 @@ class TootlesApp(App):
 
     async def reload_api_client(self) -> None:
         """Reload API client after configuration changes."""
-        config = self.config_manager.get_config()
-        if config.mastodon.instance_url and config.mastodon.access_token:
+        config = self.config_manager.config
+        if config.instance_url and config.access_token:
             self.api_client = MastodonClient(
-                instance_url=config.mastodon.instance_url,
-                access_token=config.mastodon.access_token
+                instance_url=config.instance_url,
+                access_token=config.access_token
             )
 
             # Replace welcome message with timeline if we were showing it
@@ -250,15 +250,19 @@ class TootlesApp(App):
                 self.replace_main_content(
                     TimelineWidget(self, timeline_type="home", id="main-timeline")
                 )
-            except Exception:
-                pass  # Welcome message not shown
+            except NoMatches:
+                # Welcome message not shown, nothing to replace
+                pass
         else:
             self.api_client = None
 
 
-def main():
+def main(config_path=None):
     """Entry point for the Tootles application."""
     app = TootlesApp()
+    if config_path:
+        # TODO: Pass config_path to app when config loading is implemented
+        pass
     app.run()
 
 
