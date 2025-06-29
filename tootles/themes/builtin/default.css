@@ -1,0 +1,471 @@
+/* Tootles Default Theme */
+
+/* App container */
+.app-container {
+    background: $background;
+    color: $text;
+}
+
+/* Screen container */
+.screen-container {
+    background: $surface;
+    border: solid $primary;
+}
+
+/* Navigation sidebar */
+.sidebar-navigation {
+    background: $surface;
+    border-right: solid $border;
+    width: 20;
+}
+
+.nav-item {
+    padding: 1;
+    margin: 0 1;
+    background: transparent;
+    color: $text-muted;
+}
+
+.nav-item:hover {
+    background: $primary-muted;
+    color: $text;
+}
+
+.nav-item--active {
+    background: $primary;
+    color: $text-inverse;
+}
+
+/* Main content area */
+.main-content {
+    background: $background;
+    padding: 1;
+}
+
+/* Status display */
+.status-list {
+    background: $surface;
+    border: solid $border;
+}
+
+.status-item {
+    padding: 1;
+    margin-bottom: 1;
+    background: $surface;
+    border: solid $border;
+}
+
+.status-item:hover {
+    background: $surface-lighten-1;
+}
+
+.status-item--focused {
+    border: solid $primary;
+    background: $primary-muted;
+}
+
+.status-header {
+    color: $text-muted;
+    text-style: bold;
+}
+
+.status-content {
+    color: $text;
+    margin: 1 0;
+}
+
+.status-actions {
+    color: $text-muted;
+    margin-top: 1;
+}
+
+.status-metadata {
+    color: $text-disabled;
+    text-style: italic;
+}
+
+/* Notifications */
+.notification-list {
+    background: $surface;
+}
+
+.notification-item {
+    padding: 1;
+    margin-bottom: 1;
+    background: $surface;
+    border-left: solid $accent;
+}
+
+.notification-item--mention {
+    border-left-color: $warning;
+}
+
+.notification-item--favorite {
+    border-left-color: $error;
+}
+
+.notification-item--boost {
+    border-left-color: $success;
+}
+
+.notification-item--follow {
+    border-left-color: $primary;
+}
+
+/* Interactive elements */
+.button {
+    background: $primary;
+    color: $text-inverse;
+    border: none;
+    padding: 0 2;
+}
+
+.button:hover {
+    background: $primary-lighten-1;
+}
+
+.button--primary {
+    background: $primary;
+    color: $text-inverse;
+}
+
+.button--secondary {
+    background: $surface;
+    color: $text;
+    border: solid $border;
+}
+
+.button--danger {
+    background: $error;
+    color: $text-inverse;
+}
+
+.input-field {
+    background: $surface;
+    color: $text;
+    border: solid $border;
+    padding: 0 1;
+}
+
+.input-field:focus {
+    border-color: $primary;
+}
+
+.search-box {
+    background: $surface;
+    border: solid $border;
+    padding: 0 1;
+}
+
+/* Media display */
+.media-container {
+    background: $surface-darken-1;
+    border: solid $border;
+    padding: 1;
+}
+
+.media-image {
+    background: $surface-darken-2;
+}
+
+.media-video {
+    background: $surface-darken-2;
+}
+
+.media-gallery {
+    background: $surface;
+    border: solid $border;
+}
+
+/* Command palette */
+.command-palette {
+    background: $surface;
+    border: solid $primary;
+    padding: 1;
+}
+
+.command-palette-input {
+    background: $background;
+    color: $text;
+    border: solid $border;
+    padding: 0 1;
+    margin-bottom: 1;
+}
+
+.command-palette-results {
+    background: $surface;
+}
+
+.command-palette-item {
+    padding: 0 1;
+    color: $text;
+}
+
+.command-palette-item:hover {
+    background: $primary-muted;
+}
+
+.command-palette-item--selected {
+    background: $primary;
+    color: $text-inverse;
+}
+
+/* Status bar */
+.status-bar {
+    background: $surface;
+    color: $text-muted;
+    border-top: solid $border;
+}
+
+/* Loading indicators */
+.loading {
+    color: $text-muted;
+    text-style: italic;
+}
+
+.loading-spinner {
+    color: $primary;
+
+/* Timeline Widget */
+.timeline-widget {
+    background: $surface;
+    border: solid $border;
+    padding: 1;
+}
+
+.timeline-header {
+    background: $surface-lighten-1;
+    color: $text;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid $border;
+}
+
+.timeline-content {
+    background: $background;
+    padding: 0;
+}
+
+.timeline-loading {
+    color: $text-muted;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-error {
+    color: $error;
+    text-style: bold;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-empty {
+    color: $text-muted;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+/* Status Widget */
+.status-widget {
+    background: $surface;
+    border: solid $border;
+    padding: 1;
+    margin-bottom: 1;
+}
+
+.status-widget:hover {
+    background: $surface-lighten-1;
+    border-color: $primary-muted;
+}
+
+.status-widget--focused {
+    border-color: $primary;
+    background: $primary-muted;
+}
+
+.status-author {
+    color: $text;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.status-author-handle {
+    color: $text-muted;
+    text-style: normal;
+}
+
+.status-text {
+    color: $text;
+    margin: 1 0;
+    line-height: 1.4;
+}
+
+.status-timestamp {
+    color: $text-disabled;
+    text-style: italic;
+    margin-top: 1;
+}
+
+.status-stats {
+    color: $text-muted;
+    margin-top: 1;
+    text-style: dim;
+}
+
+/* Compose Widget */
+.compose-widget {
+    background: $surface;
+    border: solid $border;
+    padding: 1;
+}
+
+.compose-header {
+    background: $surface-lighten-1;
+    color: $text;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid $border;
+    margin-bottom: 1;
+}
+
+.compose-textarea {
+    background: $background;
+    color: $text;
+    border: solid $border;
+    padding: 1;
+    margin-bottom: 1;
+    min-height: 6;
+}
+
+.compose-textarea:focus {
+    border-color: $primary;
+}
+
+.compose-controls {
+    background: $surface-lighten-1;
+    padding: 1;
+    border-top: solid $border;
+}
+
+.compose-char-count {
+    color: $text-muted;
+    text-style: dim;
+}
+
+.compose-char-count--warning {
+    color: $warning;
+    text-style: bold;
+}
+
+.compose-char-count--error {
+    color: $error;
+    text-style: bold;
+}
+
+.compose-visibility {
+    color: $text-muted;
+    margin: 0 1;
+}
+
+.compose-buttons {
+    margin-top: 1;
+}
+
+.compose-button {
+    background: $primary;
+    color: $text-inverse;
+    border: none;
+    padding: 0 2;
+    margin-right: 1;
+}
+
+.compose-button:hover {
+    background: $primary-lighten-1;
+}
+
+.compose-button--secondary {
+    background: $surface;
+    color: $text;
+    border: solid $border;
+}
+
+.compose-button--secondary:hover {
+    background: $surface-lighten-1;
+}
+
+.compose-button:disabled {
+    background: $surface-darken-1;
+    color: $text-disabled;
+}
+
+/* Home Screen Layout */
+.home-screen {
+    background: $background;
+}
+
+.home-layout {
+    background: $background;
+}
+
+.home-timeline {
+    background: $surface;
+    border-right: solid $border;
+}
+
+.home-compose {
+    background: $surface;
+    min-width: 30;
+    max-width: 40;
+}
+
+/* Scrollable containers */
+.scrollable {
+    scrollbar-background: $surface-darken-1;
+    scrollbar-color: $text-muted;
+    scrollbar-corner-color: $surface-darken-1;
+}
+
+.scrollable:hover {
+    scrollbar-color: $text;
+}
+
+/* Focus indicators */
+.focusable:focus {
+    border-color: $primary;
+    outline: solid $primary;
+}
+
+/* Error states */
+.error-message {
+    background: $error;
+    color: $text-inverse;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+
+.warning-message {
+    background: $warning;
+    color: $text-inverse;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+
+.info-message {
+    background: $primary;
+    color: $text-inverse;
+    padding: 1;
+    text-align: center;
+}
+
+.success-message {
+    background: $success;
+    color: $text-inverse;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+}
