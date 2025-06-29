@@ -1,7 +1,7 @@
 from uuid import uuid4
-from toot import cli
 
 from tests.integration.conftest import assert_ok, register_account
+from toot import cli
 
 
 def test_lists_empty(run):

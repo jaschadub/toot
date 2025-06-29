@@ -11,7 +11,7 @@ from toot.logging import log_request, log_request_exception, log_response
 def send_request(request, allow_redirects=True):
     # Set a user agent string
     # Required for accessing instances using Cloudfront DDOS protection.
-    request.headers["User-Agent"] = "toot/{}".format(__version__)
+    request.headers["User-Agent"] = f"toot/{__version__}"
 
     log_request(request)
 

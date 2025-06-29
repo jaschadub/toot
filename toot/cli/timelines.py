@@ -1,11 +1,19 @@
 import sys
+from typing import Optional, Tuple
+
 import click
 
 from toot import api
-from toot.cli import NOTIFICATION_TYPE_CHOICES, InstanceParamType, cli, get_context, pass_context, Context, json_option
-from typing import Optional, Tuple
+from toot.cli import (
+    NOTIFICATION_TYPE_CHOICES,
+    Context,
+    InstanceParamType,
+    cli,
+    get_context,
+    json_option,
+    pass_context,
+)
 from toot.cli.validators import validate_instance
-
 from toot.entities import Notification, Status, from_dict
 from toot.output import print_notifications, print_timeline, print_warning
 

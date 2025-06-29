@@ -1,14 +1,14 @@
-import click
 import logging
 import os
 import sys
 import typing as t
-
-from click.shell_completion import CompletionItem
-from click.types import StringParamType
 from functools import wraps
 
-from toot import App, User, config, __version__
+import click
+from click.shell_completion import CompletionItem
+from click.types import StringParamType
+
+from toot import App, User, __version__, config
 from toot.output import print_warning
 from toot.settings import get_settings
 

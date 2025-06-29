@@ -1,6 +1,6 @@
 import json
-from tests.integration.conftest import assert_ok, register_account
 
+from tests.integration.conftest import assert_ok, register_account
 from toot import App, User, api, cli
 from toot.entities import Account, Relationship, from_dict
 

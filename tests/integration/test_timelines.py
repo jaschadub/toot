@@ -1,11 +1,11 @@
+from uuid import uuid4
+
 import pytest
 
-from uuid import uuid4
-from tests.utils import run_with_retries
-
-from toot import api, cli
-from toot.entities import from_dict, Status
 from tests.integration.conftest import TOOT_TEST_BASE_URL, assert_ok, register_account
+from tests.utils import run_with_retries
+from toot import api, cli
+from toot.entities import Status, from_dict
 
 
 @pytest.fixture(scope="function")

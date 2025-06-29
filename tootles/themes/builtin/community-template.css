@@ -1,0 +1,395 @@
+/* Tootles Community Theme Template
+ * 
+ * This is a template for creating custom themes for Tootles.
+ * Copy this file to your theme directory (~/.config/tootles/themes/)
+ * and customize the colors and styles to your liking.
+ * 
+ * Theme Variables (you can use these or define your own colors):
+ * - $background: Main background color
+ * - $surface: Widget/container background
+ * - $primary: Primary accent color
+ * - $text: Main text color
+ * - $text-muted: Secondary text color
+ * - $text-disabled: Disabled text color
+ * - $border: Border color
+ * - $error: Error color
+ * - $warning: Warning color
+ * - $success: Success color
+ * 
+ * Required Selectors (must be present for theme to work):
+ * - .app-container
+ * - .status-item
+ * - .timeline-widget
+ * - .compose-widget
+ * - .button
+ * - .input-field
+ */
+
+/* =============================================================================
+   CUSTOMIZE THESE COLORS TO CREATE YOUR THEME
+   ============================================================================= */
+
+/* App container - Main application background */
+.app-container {
+    background: #f5f5f5;  /* Change this to your preferred background */
+    color: #333333;       /* Change this to your preferred text color */
+}
+
+/* Screen container */
+.screen-container {
+    background: #ffffff;  /* Widget container background */
+    border: solid #cccccc; /* Border color */
+}
+
+/* Navigation sidebar */
+.sidebar-navigation {
+    background: #ffffff;
+    border-right: solid #cccccc;
+    width: 20;
+}
+
+.nav-item {
+    padding: 1;
+    margin: 0 1;
+    background: transparent;
+    color: #666666;       /* Navigation text color */
+}
+
+.nav-item:hover {
+    background: #e6f3ff;  /* Navigation hover background */
+    color: #333333;
+}
+
+.nav-item--active {
+    background: #0066cc;  /* Active navigation background */
+    color: #ffffff;       /* Active navigation text */
+}
+
+/* Main content area */
+.main-content {
+    background: #f5f5f5;
+    padding: 1;
+}
+
+/* Status display */
+.status-list {
+    background: #ffffff;
+    border: solid #cccccc;
+}
+
+.status-item {
+    padding: 1;
+    margin-bottom: 1;
+    background: #ffffff;  /* Individual status background */
+    border: solid #cccccc;
+}
+
+.status-item:hover {
+    background: #f8f9fa;  /* Status hover background */
+}
+
+.status-item--focused {
+    border: solid #0066cc; /* Focused status border */
+    background: #e6f3ff;  /* Focused status background */
+}
+
+.status-header {
+    color: #666666;       /* Status header text */
+    text-style: bold;
+}
+
+.status-content {
+    color: #333333;       /* Status content text */
+    margin: 1 0;
+}
+
+.status-actions {
+    color: #666666;       /* Status action text */
+    margin-top: 1;
+}
+
+.status-metadata {
+    color: #999999;       /* Status metadata text */
+    text-style: italic;
+}
+
+/* Interactive elements */
+.button {
+    background: #0066cc;  /* Primary button background */
+    color: #ffffff;       /* Primary button text */
+    border: none;
+    padding: 0 2;
+}
+
+.button:hover {
+    background: #0052a3;  /* Primary button hover */
+}
+
+.button--primary {
+    background: #0066cc;
+    color: #ffffff;
+}
+
+.button--secondary {
+    background: #ffffff;
+    color: #333333;
+    border: solid #cccccc;
+}
+
+.button--danger {
+    background: #dc3545;  /* Danger button background */
+    color: #ffffff;
+}
+
+.input-field {
+    background: #ffffff;  /* Input field background */
+    color: #333333;       /* Input field text */
+    border: solid #cccccc;
+    padding: 0 1;
+}
+
+.input-field:focus {
+    border-color: #0066cc; /* Input field focus border */
+}
+
+/* Timeline Widget */
+.timeline-widget {
+    background: #ffffff;
+    border: solid #cccccc;
+    padding: 1;
+}
+
+.timeline-header {
+    background: #f8f9fa;
+    color: #333333;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid #cccccc;
+}
+
+.timeline-content {
+    background: #f5f5f5;
+    padding: 0;
+}
+
+.timeline-loading {
+    color: #666666;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-error {
+    color: #dc3545;       /* Error text color */
+    text-style: bold;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-empty {
+    color: #666666;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+/* Status Widget */
+.status-widget {
+    background: #ffffff;
+    border: solid #cccccc;
+    padding: 1;
+    margin-bottom: 1;
+}
+
+.status-widget:hover {
+    background: #f8f9fa;
+    border-color: #999999;
+}
+
+.status-widget--focused {
+    border-color: #0066cc;
+    background: #e6f3ff;
+}
+
+.status-author {
+    color: #333333;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.status-author-handle {
+    color: #666666;
+    text-style: normal;
+}
+
+.status-text {
+    color: #333333;
+    margin: 1 0;
+    line-height: 1.4;
+}
+
+.status-timestamp {
+    color: #999999;
+    text-style: italic;
+    margin-top: 1;
+}
+
+.status-stats {
+    color: #666666;
+    margin-top: 1;
+    text-style: dim;
+}
+
+/* Compose Widget */
+.compose-widget {
+    background: #ffffff;
+    border: solid #cccccc;
+    padding: 1;
+}
+
+.compose-header {
+    background: #f8f9fa;
+    color: #333333;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid #cccccc;
+    margin-bottom: 1;
+}
+
+.compose-textarea {
+    background: #ffffff;
+    color: #333333;
+    border: solid #cccccc;
+    padding: 1;
+    margin-bottom: 1;
+    min-height: 6;
+}
+
+.compose-textarea:focus {
+    border-color: #0066cc;
+}
+
+.compose-controls {
+    background: #f8f9fa;
+    padding: 1;
+    border-top: solid #cccccc;
+}
+
+.compose-char-count {
+    color: #666666;
+    text-style: dim;
+}
+
+.compose-char-count--warning {
+    color: #fd7e14;       /* Warning color */
+    text-style: bold;
+}
+
+.compose-char-count--error {
+    color: #dc3545;       /* Error color */
+    text-style: bold;
+}
+
+.compose-button {
+    background: #0066cc;
+    color: #ffffff;
+    border: none;
+    padding: 0 2;
+    margin-right: 1;
+}
+
+.compose-button:hover {
+    background: #0052a3;
+}
+
+.compose-button--secondary {
+    background: #ffffff;
+    color: #333333;
+    border: solid #cccccc;
+}
+
+.compose-button--secondary:hover {
+    background: #f8f9fa;
+}
+
+/* Home Screen Layout */
+.home-screen {
+    background: #f5f5f5;
+}
+
+.home-layout {
+    background: #f5f5f5;
+}
+
+.home-timeline {
+    background: #ffffff;
+    border-right: solid #cccccc;
+}
+
+.home-compose {
+    background: #ffffff;
+    min-width: 30;
+    max-width: 40;
+}
+
+/* Scrollable containers */
+.scrollable {
+    scrollbar-background: #f8f9fa;
+    scrollbar-color: #666666;
+    scrollbar-corner-color: #f8f9fa;
+}
+
+.scrollable:hover {
+    scrollbar-color: #333333;
+}
+
+/* Focus indicators */
+.focusable:focus {
+    border-color: #0066cc;
+    outline: solid #0066cc;
+}
+
+/* Error states */
+.error-message {
+    background: #dc3545;
+    color: #ffffff;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+
+.warning-message {
+    background: #fd7e14;
+    color: #ffffff;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+
+.info-message {
+    background: #0066cc;
+    color: #ffffff;
+    padding: 1;
+    text-align: center;
+}
+
+.success-message {
+    background: #28a745;   /* Success color */
+    color: #ffffff;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+
+/* =============================================================================
+   CUSTOMIZATION TIPS:
+   
+   1. Change the colors in the comments above to match your preferences
+   2. You can add new selectors for additional customization
+   3. Use CSS variables like $primary, $background, etc. for consistency
+   4. Test your theme by copying it to ~/.config/tootles/themes/
+   5. Restart Tootles and select your theme in settings
+   
+   For more advanced customization, see the documentation at:
+   https://github.com/your-repo/tootles/docs/theming.md
+   ============================================================================= */

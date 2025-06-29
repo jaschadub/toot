@@ -1,38 +1,45 @@
-"""Compose widget for creating new toots."""
+"""Compose screen for creating new toots."""
 
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from textual.app import ComposeResult
 from textual.containers import Horizontal, Vertical
-from textual.message import Message
-from textual.widget import Widget
+from textual.screen import ModalScreen
 from textual.widgets import Button, Label, Select, TextArea
 
+if TYPE_CHECKING:
+    from tootles.api.models import Status
+    from tootles.main import TootlesApp
 
-class ComposeWidget(Widget):
-    """Widget for composing new toots."""
+
+class ComposeWidget(ModalScreen):
+    """Modal screen for composing new toots."""
 
     DEFAULT_CSS = """
     ComposeWidget {
-        height: auto;
-        min-height: 10;
+        align: center middle;
+    }
+
+    ComposeWidget > Vertical {
+        width: 80;
+        height: 25;
         border: solid $primary;
+        background: $surface;
         padding: 1;
-        margin: 1;
     }
 
     ComposeWidget TextArea {
-        height: 6;
+        height: 10;
         margin-bottom: 1;
     }
 
     ComposeWidget .compose-header {
-        height: 1;
+        height: 3;
         margin-bottom: 1;
     }
 
     ComposeWidget .compose-controls {
-        height: 1;
+        height: 3;
         margin-top: 1;
     }
 
@@ -57,57 +64,46 @@ class ComposeWidget(Widget):
         width: 15;
         margin-right: 1;
     }
+
+    ComposeWidget .reply-info {
+        color: $text-muted;
+        margin-bottom: 1;
+        padding: 1;
+        border: solid $border;
+        background: $surface-lighten-1;
+    }
     """
-
-    class PostStatus(Message):
-        """Message sent when a status should be posted."""
-
-        def __init__(
-            self,
-            content: str,
-            visibility: str = "public",
-            in_reply_to_id: Optional[str] = None,
-            sensitive: bool = False,
-            spoiler_text: Optional[str] = None
-        ) -> None:
-            self.content = content
-            self.visibility = visibility
-            self.in_reply_to_id = in_reply_to_id
-            self.sensitive = sensitive
-            self.spoiler_text = spoiler_text
-            super().__init__()
-
-    class Cancel(Message):
-        """Message sent when compose is cancelled."""
-        pass
 
     def __init__(
         self,
-        reply_to_id: Optional[str] = None,
+        app_ref: "TootlesApp",
+        reply_to: Optional["Status"] = None,
         initial_content: str = "",
         **kwargs
     ):
-        """Initialize the compose widget.
+        """Initialize the compose screen.
 
         Args:
-            reply_to_id: ID of status being replied to
+            app_ref: Reference to the main application
+            reply_to: Status being replied to
             initial_content: Initial content for the text area
         """
         super().__init__(**kwargs)
-        self.reply_to_id = reply_to_id
+        self.app_ref = app_ref
+        self.reply_to = reply_to
         self.initial_content = initial_content
         self.max_chars = 500  # Standard Mastodon limit
-        self._text_area: Optional[TextArea] = None
-        self._char_counter: Optional[Label] = None
-        self._visibility_select: Optional[Select] = None
-        self._post_button: Optional[Button] = None
+
+        # Set initial content for replies
+        if reply_to and not initial_content:
+            self.initial_content = f"@{reply_to.account.acct} "
 
     def compose(self) -> ComposeResult:
-        """Compose the widget layout."""
+        """Compose the screen layout."""
         with Vertical():
             # Header
             with Horizontal(classes="compose-header"):
-                if self.reply_to_id:
+                if self.reply_to:
                     yield Label("Reply to toot", classes="compose-title")
                 else:
                     yield Label("Compose new toot", classes="compose-title")
@@ -116,6 +112,18 @@ class ComposeWidget(Widget):
                     f"0/{self.max_chars}",
                     classes="char-counter",
                     id="char-counter"
+                )
+
+            # Reply info if replying
+            if self.reply_to:
+                reply_text = (
+                    self.reply_to.content[:100] + "..."
+                    if len(self.reply_to.content) > 100
+                    else self.reply_to.content
+                )
+                yield Label(
+                    f"Replying to @{self.reply_to.account.acct}: {reply_text}",
+                    classes="reply-info"
                 )
 
             # Text area
@@ -143,113 +151,86 @@ class ComposeWidget(Widget):
                 yield Button("Cancel", variant="default", id="cancel-button")
                 yield Button("Post", variant="primary", id="post-button")
 
-    def on_mount(self) -> None:
-        """Handle widget mounting."""
-        self._text_area = self.query_one("#compose-text", TextArea)
-        self._char_counter = self.query_one("#char-counter", Label)
-        self._visibility_select = self.query_one("#visibility-select", Select)
-        self._post_button = self.query_one("#post-button", Button)
-
+    async def on_mount(self) -> None:
+        """Handle screen mounting."""
         # Focus the text area
-        self._text_area.focus()
+        text_area = self.query_one("#compose-text", TextArea)
+        text_area.focus()
 
         # Update character counter
         self._update_char_counter()
 
-    def on_text_area_changed(self, event: TextArea.Changed) -> None:
+    async def on_text_area_changed(self, event: TextArea.Changed) -> None:
         """Handle text area content changes."""
         if event.text_area.id == "compose-text":
             self._update_char_counter()
 
-    def on_button_pressed(self, event: Button.Pressed) -> None:
+    async def on_button_pressed(self, event: Button.Pressed) -> None:
         """Handle button presses."""
         if event.button.id == "post-button":
-            self._post_status()
+            await self._post_status()
         elif event.button.id == "cancel-button":
-            self.post_message(self.Cancel())
+            self.app.pop_screen()
 
     def _update_char_counter(self) -> None:
         """Update the character counter display."""
-        if not self._text_area or not self._char_counter:
-            return
+        try:
+            text_area = self.query_one("#compose-text", TextArea)
+            char_counter = self.query_one("#char-counter", Label)
+            post_button = self.query_one("#post-button", Button)
 
-        content = self._text_area.text
-        char_count = len(content)
-        remaining = self.max_chars - char_count
+            content = text_area.text
+            char_count = len(content)
+            remaining = self.max_chars - char_count
 
-        # Update counter text
-        self._char_counter.update(f"{char_count}/{self.max_chars}")
+            # Update counter text
+            char_counter.update(f"{char_count}/{self.max_chars}")
 
-        # Update counter styling
-        self._char_counter.remove_class("warning", "error")
-        if remaining < 0:
-            self._char_counter.add_class("error")
-            if self._post_button:
-                self._post_button.disabled = True
-        elif remaining < 50:
-            self._char_counter.add_class("warning")
-            if self._post_button:
-                self._post_button.disabled = False
-        else:
-            if self._post_button:
-                self._post_button.disabled = char_count == 0
+            # Update counter styling
+            char_counter.remove_class("warning", "error")
+            if remaining < 0:
+                char_counter.add_class("error")
+                post_button.disabled = True
+            elif remaining < 50:
+                char_counter.add_class("warning")
+                post_button.disabled = False
+            else:
+                post_button.disabled = char_count == 0
 
-    def _post_status(self) -> None:
+        except Exception:
+            pass  # Widgets might not be mounted yet
+
+    async def _post_status(self) -> None:
         """Post the composed status."""
-        if not self._text_area or not self._visibility_select:
-            return
+        try:
+            text_area = self.query_one("#compose-text", TextArea)
+            visibility_select = self.query_one("#visibility-select", Select)
 
-        content = self._text_area.text.strip()
-        if not content:
-            return
+            content = text_area.text.strip()
+            if not content:
+                self.app.notify("Cannot post empty status", severity="warning")
+                return
 
-        visibility = self._visibility_select.value
+            if not self.app_ref.api_client:
+                self.app.notify("No API client available", severity="error")
+                return
 
-        self.post_message(self.PostStatus(
-            content=content,
-            visibility=visibility,
-            in_reply_to_id=self.reply_to_id
-        ))
+            visibility = visibility_select.value
+            in_reply_to_id = self.reply_to.id if self.reply_to else None
 
-    def clear(self) -> None:
-        """Clear the compose widget."""
-        if self._text_area:
-            self._text_area.text = ""
-        if self._visibility_select:
-            self._visibility_select.value = "public"
-        self._update_char_counter()
+            # Post the status
+            await self.app_ref.api_client.post_status(
+                content=content,
+                visibility=visibility,
+                in_reply_to_id=in_reply_to_id
+            )
 
-    def set_content(self, content: str) -> None:
-        """Set the content of the text area.
+            self.app.notify("Status posted successfully!", severity="success")
+            self.app.pop_screen()
 
-        Args:
-            content: Content to set
-        """
-        if self._text_area:
-            self._text_area.text = content
-            self._update_char_counter()
+        except Exception as e:
+            self.app.notify(f"Failed to post status: {e}", severity="error")
 
-    def get_content(self) -> str:
-        """Get the current content of the text area.
-
-        Returns:
-            Current text content
-        """
-        return self._text_area.text if self._text_area else ""
-
-    def set_visibility(self, visibility: str) -> None:
-        """Set the visibility setting.
-
-        Args:
-            visibility: Visibility level (public, unlisted, private, direct)
-        """
-        if self._visibility_select:
-            self._visibility_select.value = visibility
-
-    def get_visibility(self) -> str:
-        """Get the current visibility setting.
-
-        Returns:
-            Current visibility level
-        """
-        return self._visibility_select.value if self._visibility_select else "public"
+    def action_cancel(self) -> None:
+        """Cancel compose (Escape key)."""
+        self.app.pop_screen()

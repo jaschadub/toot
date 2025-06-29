@@ -1,16 +1,15 @@
 import mimetypes
 import re
 import uuid
-
 from os import path
-from requests import Response
 from typing import BinaryIO, List, Optional
-from urllib.parse import urlparse, urlencode, quote
+from urllib.parse import quote, urlencode, urlparse
 
-from toot import App, User, http, CLIENT_NAME, CLIENT_WEBSITE
+from requests import Response
+
+from toot import CLIENT_NAME, CLIENT_WEBSITE, App, User, http
 from toot.exceptions import ConsoleError
 from toot.utils import drop_empty_values, str_bool, str_bool_nullable
-
 
 SCOPES = 'read write follow'
 

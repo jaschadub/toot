@@ -1,7 +1,7 @@
 from urwid import Divider, Filler, Pile
-from toot.tui.richtext import url_to_widget
 from urwidgets import Hyperlink, TextEmbed
 
+from toot.tui.richtext import url_to_widget
 from toot.tui.richtext.richtext import html_to_widgets
 
 

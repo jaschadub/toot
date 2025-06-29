@@ -1,0 +1,353 @@
+/* Tootles Dark Theme */
+
+/* App container */
+.app-container {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+/* Screen container */
+.screen-container {
+    background: #2d2d2d;
+    border: solid #4a4a4a;
+}
+
+/* Navigation sidebar */
+.sidebar-navigation {
+    background: #2d2d2d;
+    border-right: solid #4a4a4a;
+    width: 20;
+}
+
+.nav-item {
+    padding: 1;
+    margin: 0 1;
+    background: transparent;
+    color: #a0a0a0;
+}
+
+.nav-item:hover {
+    background: #3d3d3d;
+    color: #e0e0e0;
+}
+
+.nav-item--active {
+    background: #5a5a5a;
+    color: #ffffff;
+}
+
+/* Main content area */
+.main-content {
+    background: #1a1a1a;
+    padding: 1;
+}
+
+/* Status display */
+.status-list {
+    background: #2d2d2d;
+    border: solid #4a4a4a;
+}
+
+.status-item {
+    padding: 1;
+    margin-bottom: 1;
+    background: #2d2d2d;
+    border: solid #4a4a4a;
+}
+
+.status-item:hover {
+    background: #3d3d3d;
+}
+
+.status-item--focused {
+    border: solid #6a6a6a;
+    background: #3d3d3d;
+}
+
+.status-header {
+    color: #a0a0a0;
+    text-style: bold;
+}
+
+.status-content {
+    color: #e0e0e0;
+    margin: 1 0;
+}
+
+.status-actions {
+    color: #a0a0a0;
+    margin-top: 1;
+}
+
+.status-metadata {
+    color: #808080;
+    text-style: italic;
+}
+
+/* Interactive elements */
+.button {
+    background: #5a5a5a;
+    color: #ffffff;
+    border: none;
+    padding: 0 2;
+}
+
+.button:hover {
+    background: #6a6a6a;
+}
+
+.button--primary {
+    background: #5a5a5a;
+    color: #ffffff;
+}
+
+.button--secondary {
+    background: #2d2d2d;
+    color: #e0e0e0;
+    border: solid #4a4a4a;
+}
+
+.button--danger {
+    background: #cc4444;
+    color: #ffffff;
+}
+
+.input-field {
+    background: #2d2d2d;
+    color: #e0e0e0;
+    border: solid #4a4a4a;
+    padding: 0 1;
+}
+
+.input-field:focus {
+    border-color: #6a6a6a;
+}
+
+/* Timeline Widget */
+.timeline-widget {
+    background: #2d2d2d;
+    border: solid #4a4a4a;
+    padding: 1;
+}
+
+.timeline-header {
+    background: #3d3d3d;
+    color: #e0e0e0;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid #4a4a4a;
+}
+
+.timeline-content {
+    background: #1a1a1a;
+    padding: 0;
+}
+
+.timeline-loading {
+    color: #a0a0a0;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-error {
+    color: #cc4444;
+    text-style: bold;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-empty {
+    color: #a0a0a0;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+/* Status Widget */
+.status-widget {
+    background: #2d2d2d;
+    border: solid #4a4a4a;
+    padding: 1;
+    margin-bottom: 1;
+}
+
+.status-widget:hover {
+    background: #3d3d3d;
+    border-color: #5a5a5a;
+}
+
+.status-widget--focused {
+    border-color: #6a6a6a;
+    background: #3d3d3d;
+}
+
+.status-author {
+    color: #e0e0e0;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.status-author-handle {
+    color: #a0a0a0;
+    text-style: normal;
+}
+
+.status-text {
+    color: #e0e0e0;
+    margin: 1 0;
+    line-height: 1.4;
+}
+
+.status-timestamp {
+    color: #808080;
+    text-style: italic;
+    margin-top: 1;
+}
+
+.status-stats {
+    color: #a0a0a0;
+    margin-top: 1;
+    text-style: dim;
+}
+
+/* Compose Widget */
+.compose-widget {
+    background: #2d2d2d;
+    border: solid #4a4a4a;
+    padding: 1;
+}
+
+.compose-header {
+    background: #3d3d3d;
+    color: #e0e0e0;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid #4a4a4a;
+    margin-bottom: 1;
+}
+
+.compose-textarea {
+    background: #1a1a1a;
+    color: #e0e0e0;
+    border: solid #4a4a4a;
+    padding: 1;
+    margin-bottom: 1;
+    min-height: 6;
+}
+
+.compose-textarea:focus {
+    border-color: #6a6a6a;
+}
+
+.compose-controls {
+    background: #3d3d3d;
+    padding: 1;
+    border-top: solid #4a4a4a;
+}
+
+.compose-char-count {
+    color: #a0a0a0;
+    text-style: dim;
+}
+
+.compose-char-count--warning {
+    color: #ffaa44;
+    text-style: bold;
+}
+
+.compose-char-count--error {
+    color: #cc4444;
+    text-style: bold;
+}
+
+.compose-button {
+    background: #5a5a5a;
+    color: #ffffff;
+    border: none;
+    padding: 0 2;
+    margin-right: 1;
+}
+
+.compose-button:hover {
+    background: #6a6a6a;
+}
+
+.compose-button--secondary {
+    background: #2d2d2d;
+    color: #e0e0e0;
+    border: solid #4a4a4a;
+}
+
+.compose-button--secondary:hover {
+    background: #3d3d3d;
+}
+
+/* Home Screen Layout */
+.home-screen {
+    background: #1a1a1a;
+}
+
+.home-layout {
+    background: #1a1a1a;
+}
+
+.home-timeline {
+    background: #2d2d2d;
+    border-right: solid #4a4a4a;
+}
+
+.home-compose {
+    background: #2d2d2d;
+    min-width: 30;
+    max-width: 40;
+}
+
+/* Scrollable containers */
+.scrollable {
+    scrollbar-background: #1a1a1a;
+    scrollbar-color: #a0a0a0;
+    scrollbar-corner-color: #1a1a1a;
+}
+
+.scrollable:hover {
+    scrollbar-color: #e0e0e0;
+}
+
+/* Focus indicators */
+.focusable:focus {
+    border-color: #6a6a6a;
+    outline: solid #6a6a6a;
+}
+
+/* Error states */
+.error-message {
+    background: #cc4444;
+    color: #ffffff;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+
+.warning-message {
+    background: #ffaa44;
+    color: #000000;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+
+.info-message {
+    background: #5a5a5a;
+    color: #ffffff;
+    padding: 1;
+    text-align: center;
+}
+
+.success-message {
+    background: #44cc44;
+    color: #ffffff;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}

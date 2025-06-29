@@ -1,23 +1,19 @@
 import logging
 import math
-import urwid
 import webbrowser
-
 from typing import List, Optional
 
-from toot.tui import app
-
-from toot.tui.richtext import html_to_widgets, url_to_widget
-from toot.utils.datetime import parse_datetime, time_ago
-from toot.utils.language import language_name
+import urwid
 
 from toot.entities import Status
+from toot.tui import app
+from toot.tui.images import can_render_pixels, graphics_widget, image_support_enabled
+from toot.tui.richtext import html_to_widgets, url_to_widget
 from toot.tui.scroll import Scrollable, ScrollBar
-
 from toot.tui.utils import highlight_keys
-from toot.tui.images import image_support_enabled, graphics_widget, can_render_pixels
-from toot.tui.widgets import SelectableText, SelectableColumns, RoundedLineBox
-
+from toot.tui.widgets import RoundedLineBox, SelectableColumns, SelectableText
+from toot.utils.datetime import parse_datetime, time_ago
+from toot.utils.language import language_name
 
 logger = logging.getLogger("toot")
 screen = urwid.raw_display.Screen()
@@ -303,7 +299,7 @@ class Timeline(urwid.Columns):
         for n, status in enumerate(self.statuses.copy()):
             if status.id == id:
                 return n
-        raise ValueError("Status with ID {} not found".format(id))
+        raise ValueError(f"Status with ID {id} not found")
 
     def focus_status(self, status):
         index = self.get_status_index(status.id)
@@ -587,7 +583,7 @@ class StatusDetails(urwid.Pile):
 
         if poll["expires_at"]:
             expires_at = parse_datetime(poll["expires_at"]).strftime("%Y-%m-%d %H:%M")
-            status += " · Closes on {}".format(expires_at)
+            status += f" · Closes on {expires_at}"
 
         yield urwid.Text(("dim", status))
 

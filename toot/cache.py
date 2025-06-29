@@ -1,6 +1,5 @@
 import os
 import sys
-
 from pathlib import Path
 from typing import Optional
 
@@ -20,7 +19,7 @@ def get_last_post_id(app: App, user: User) -> Optional[str]:
     """Retrieve ID of the last post posted to this instance"""
     path = _last_post_id_path(app, user)
     if path.exists():
-        with open(path, "r") as f:
+        with open(path) as f:
             return f.read()
 
 

@@ -1,9 +1,9 @@
 import json
 import sys
-
 from logging import getLogger
-from requests import Request, RequestException, Response
 from urllib.parse import urlencode
+
+from requests import Request, RequestException, Response
 
 logger = getLogger("toot")
 

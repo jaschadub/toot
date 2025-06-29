@@ -1,4 +1,5 @@
 import json
+
 import pytest
 
 from tests.integration.conftest import assert_ok

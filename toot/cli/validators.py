@@ -1,8 +1,8 @@
-import click
 import re
-
-from click import Context
 from typing import Optional
+
+import click
+from click import Context
 
 from toot.cli import TUI_COLORS
 

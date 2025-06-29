@@ -2,8 +2,8 @@ from typing import Any, Dict
 from unittest import mock
 from unittest.mock import MagicMock
 
-from toot import User, cli
 from tests.integration.conftest import PASSWORD, Run, assert_ok
+from toot import User, cli
 
 # TODO: figure out how to test login
 

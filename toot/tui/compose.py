@@ -1,5 +1,6 @@
-import urwid
 import logging
+
+import urwid
 
 from .constants import VISIBILITY_OPTIONS
 from .widgets import Button, EditBox
@@ -54,9 +55,9 @@ class StatusComposer(urwid.Frame):
             edit_text=text, edit_pos=len(text), multiline=True, allow_tab=True)
         urwid.connect_signal(self.content_edit.edit, "change", self.text_changed)
 
-        self.char_count = urwid.Text(["0/{}".format(max_chars)])
+        self.char_count = urwid.Text([f"0/{max_chars}"])
 
-        self.visibility_button = Button("Visibility: {}".format(self.visibility),
+        self.visibility_button = Button(f"Visibility: {self.visibility}",
             on_press=self.choose_visibility)
 
         self.post_button = Button("Edit" if edit else "Post", on_press=self.post)
@@ -71,7 +72,7 @@ class StatusComposer(urwid.Frame):
         if not in_reply_to:
             return ""
 
-        text = '' if in_reply_to.is_mine else '@{} '.format(in_reply_to.original.account)
+        text = '' if in_reply_to.is_mine else f'@{in_reply_to.original.account} '
         mentions = ['@{}'.format(m["acct"]) for m in in_reply_to.mentions if m["acct"] != self.username]
         if mentions:
             text += '\n\n{}'.format(' '.join(mentions))
@@ -80,13 +81,13 @@ class StatusComposer(urwid.Frame):
 
     def text_changed(self, edit, text):
         count = self.max_chars - len(text)
-        text = "{}/{}".format(count, self.max_chars)
+        text = f"{count}/{self.max_chars}"
         color = "warning" if count < 0 else ""
         self.char_count.set_text((color, text))
 
     def generate_list_items(self):
         if self.in_reply_to:
-            yield urwid.Text(("dim", "Replying to {}".format(self.in_reply_to.original.account)))
+            yield urwid.Text(("dim", f"Replying to {self.in_reply_to.original.account}"))
             yield urwid.AttrWrap(urwid.Divider("-"), "dim")
 
         yield urwid.Text("Status message")
@@ -113,7 +114,7 @@ class StatusComposer(urwid.Frame):
     def choose_visibility(self, *args):
         list_items = [urwid.Text("Choose status visibility:")]
         for visibility, caption, description in VISIBILITY_OPTIONS:
-            text = "{} - {}".format(caption, description)
+            text = f"{caption} - {description}"
             button = Button(text, on_press=self.set_visibility, user_data=visibility)
             list_items.append(button)
 
@@ -127,7 +128,7 @@ class StatusComposer(urwid.Frame):
 
     def set_visibility(self, widget, visibility):
         self.visibility = visibility
-        self.visibility_button.set_label("Visibility: {}".format(self.visibility))
+        self.visibility_button.set_label(f"Visibility: {self.visibility}")
         self.refresh()
         self.walker.set_focus(7 if self.cw_edit else 4)
 

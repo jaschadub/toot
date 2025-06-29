@@ -43,7 +43,9 @@ class Account:
             bot=data["bot"],
             discoverable=data.get("discoverable"),
             group=data["group"],
-            created_at=datetime.fromisoformat(data["created_at"].replace("Z", "+00:00")),
+            created_at=datetime.fromisoformat(
+                data["created_at"].replace("Z", "+00:00")
+            ),
             note=data["note"],
             url=data["url"],
             avatar=data["avatar"],
@@ -53,7 +55,9 @@ class Account:
             followers_count=data["followers_count"],
             following_count=data["following_count"],
             statuses_count=data["statuses_count"],
-            last_status_at=datetime.fromisoformat(data["last_status_at"].replace("Z", "+00:00")) if data.get("last_status_at") else None,
+            last_status_at=datetime.fromisoformat(
+                data["last_status_at"].replace("Z", "+00:00")
+            ) if data.get("last_status_at") else None,
             emojis=data["emojis"],
             fields=data["fields"],
         )
@@ -129,13 +133,17 @@ class Status:
         return cls(
             id=data["id"],
             uri=data["uri"],
-            created_at=datetime.fromisoformat(data["created_at"].replace("Z", "+00:00")),
+            created_at=datetime.fromisoformat(
+                data["created_at"].replace("Z", "+00:00")
+            ),
             account=Account.from_dict(data["account"]),
             content=data["content"],
             visibility=data["visibility"],
             sensitive=data["sensitive"],
             spoiler_text=data["spoiler_text"],
-            media_attachments=[MediaAttachment.from_dict(m) for m in data["media_attachments"]],
+            media_attachments=[
+                MediaAttachment.from_dict(m) for m in data["media_attachments"]
+            ],
             application=data.get("application"),
             mentions=data["mentions"],
             tags=data["tags"],
@@ -175,7 +183,9 @@ class Notification:
         return cls(
             id=data["id"],
             type=data["type"],
-            created_at=datetime.fromisoformat(data["created_at"].replace("Z", "+00:00")),
+            created_at=datetime.fromisoformat(
+                data["created_at"].replace("Z", "+00:00")
+            ),
             account=Account.from_dict(data["account"]),
             status=Status.from_dict(data["status"]) if data.get("status") else None,
         )

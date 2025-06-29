@@ -1,0 +1,353 @@
+/* Tootles Light Theme */
+
+/* App container */
+.app-container {
+    background: #ffffff;
+    color: #2d2d2d;
+}
+
+/* Screen container */
+.screen-container {
+    background: #f8f9fa;
+    border: solid #dee2e6;
+}
+
+/* Navigation sidebar */
+.sidebar-navigation {
+    background: #f8f9fa;
+    border-right: solid #dee2e6;
+    width: 20;
+}
+
+.nav-item {
+    padding: 1;
+    margin: 0 1;
+    background: transparent;
+    color: #6c757d;
+}
+
+.nav-item:hover {
+    background: #e9ecef;
+    color: #2d2d2d;
+}
+
+.nav-item--active {
+    background: #007bff;
+    color: #ffffff;
+}
+
+/* Main content area */
+.main-content {
+    background: #ffffff;
+    padding: 1;
+}
+
+/* Status display */
+.status-list {
+    background: #f8f9fa;
+    border: solid #dee2e6;
+}
+
+.status-item {
+    padding: 1;
+    margin-bottom: 1;
+    background: #f8f9fa;
+    border: solid #dee2e6;
+}
+
+.status-item:hover {
+    background: #e9ecef;
+}
+
+.status-item--focused {
+    border: solid #007bff;
+    background: #e7f3ff;
+}
+
+.status-header {
+    color: #6c757d;
+    text-style: bold;
+}
+
+.status-content {
+    color: #2d2d2d;
+    margin: 1 0;
+}
+
+.status-actions {
+    color: #6c757d;
+    margin-top: 1;
+}
+
+.status-metadata {
+    color: #adb5bd;
+    text-style: italic;
+}
+
+/* Interactive elements */
+.button {
+    background: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 0 2;
+}
+
+.button:hover {
+    background: #0056b3;
+}
+
+.button--primary {
+    background: #007bff;
+    color: #ffffff;
+}
+
+.button--secondary {
+    background: #f8f9fa;
+    color: #2d2d2d;
+    border: solid #dee2e6;
+}
+
+.button--danger {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+.input-field {
+    background: #ffffff;
+    color: #2d2d2d;
+    border: solid #dee2e6;
+    padding: 0 1;
+}
+
+.input-field:focus {
+    border-color: #007bff;
+}
+
+/* Timeline Widget */
+.timeline-widget {
+    background: #f8f9fa;
+    border: solid #dee2e6;
+    padding: 1;
+}
+
+.timeline-header {
+    background: #e9ecef;
+    color: #2d2d2d;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid #dee2e6;
+}
+
+.timeline-content {
+    background: #ffffff;
+    padding: 0;
+}
+
+.timeline-loading {
+    color: #6c757d;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-error {
+    color: #dc3545;
+    text-style: bold;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-empty {
+    color: #6c757d;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+/* Status Widget */
+.status-widget {
+    background: #f8f9fa;
+    border: solid #dee2e6;
+    padding: 1;
+    margin-bottom: 1;
+}
+
+.status-widget:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.status-widget--focused {
+    border-color: #007bff;
+    background: #e7f3ff;
+}
+
+.status-author {
+    color: #2d2d2d;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.status-author-handle {
+    color: #6c757d;
+    text-style: normal;
+}
+
+.status-text {
+    color: #2d2d2d;
+    margin: 1 0;
+    line-height: 1.4;
+}
+
+.status-timestamp {
+    color: #adb5bd;
+    text-style: italic;
+    margin-top: 1;
+}
+
+.status-stats {
+    color: #6c757d;
+    margin-top: 1;
+    text-style: dim;
+}
+
+/* Compose Widget */
+.compose-widget {
+    background: #f8f9fa;
+    border: solid #dee2e6;
+    padding: 1;
+}
+
+.compose-header {
+    background: #e9ecef;
+    color: #2d2d2d;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid #dee2e6;
+    margin-bottom: 1;
+}
+
+.compose-textarea {
+    background: #ffffff;
+    color: #2d2d2d;
+    border: solid #dee2e6;
+    padding: 1;
+    margin-bottom: 1;
+    min-height: 6;
+}
+
+.compose-textarea:focus {
+    border-color: #007bff;
+}
+
+.compose-controls {
+    background: #e9ecef;
+    padding: 1;
+    border-top: solid #dee2e6;
+}
+
+.compose-char-count {
+    color: #6c757d;
+    text-style: dim;
+}
+
+.compose-char-count--warning {
+    color: #fd7e14;
+    text-style: bold;
+}
+
+.compose-char-count--error {
+    color: #dc3545;
+    text-style: bold;
+}
+
+.compose-button {
+    background: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 0 2;
+    margin-right: 1;
+}
+
+.compose-button:hover {
+    background: #0056b3;
+}
+
+.compose-button--secondary {
+    background: #f8f9fa;
+    color: #2d2d2d;
+    border: solid #dee2e6;
+}
+
+.compose-button--secondary:hover {
+    background: #e9ecef;
+}
+
+/* Home Screen Layout */
+.home-screen {
+    background: #ffffff;
+}
+
+.home-layout {
+    background: #ffffff;
+}
+
+.home-timeline {
+    background: #f8f9fa;
+    border-right: solid #dee2e6;
+}
+
+.home-compose {
+    background: #f8f9fa;
+    min-width: 30;
+    max-width: 40;
+}
+
+/* Scrollable containers */
+.scrollable {
+    scrollbar-background: #e9ecef;
+    scrollbar-color: #6c757d;
+    scrollbar-corner-color: #e9ecef;
+}
+
+.scrollable:hover {
+    scrollbar-color: #2d2d2d;
+}
+
+/* Focus indicators */
+.focusable:focus {
+    border-color: #007bff;
+    outline: solid #007bff;
+}
+
+/* Error states */
+.error-message {
+    background: #dc3545;
+    color: #ffffff;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+
+.warning-message {
+    background: #fd7e14;
+    color: #ffffff;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}
+
+.info-message {
+    background: #007bff;
+    color: #ffffff;
+    padding: 1;
+    text-align: center;
+}
+
+.success-message {
+    background: #28a745;
+    color: #ffffff;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+}

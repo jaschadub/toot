@@ -5,7 +5,6 @@ Helpers for testing.
 import time
 from typing import Callable, TypeVar
 
-
 T = TypeVar("T")
 
 

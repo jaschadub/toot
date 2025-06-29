@@ -1,10 +1,10 @@
 import json
 import re
+from uuid import uuid4
 
 from tests.integration.conftest import TOOT_TEST_BASE_URL, assert_ok
 from toot import api, cli
 from toot.entities import Account, Status, from_dict, from_dict_list
-from uuid import uuid4
 
 
 def test_instance_default(app, run):

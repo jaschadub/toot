@@ -1,8 +1,16 @@
+from typing import Optional
+
 import click
 
-from typing import Optional
-from toot.cli import TUI_COLORS, VISIBILITY_CHOICES, IMAGE_FORMAT_CHOICES, Context, cli, pass_context
-from toot.cli.validators import validate_tui_colors, validate_cache_size
+from toot.cli import (
+    IMAGE_FORMAT_CHOICES,
+    TUI_COLORS,
+    VISIBILITY_CHOICES,
+    Context,
+    cli,
+    pass_context,
+)
+from toot.cli.validators import validate_cache_size, validate_tui_colors
 from toot.tui.app import TUI, TuiOptions
 
 COLOR_OPTIONS = ", ".join(TUI_COLORS.keys())

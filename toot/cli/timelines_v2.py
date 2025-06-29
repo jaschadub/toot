@@ -16,7 +16,13 @@ from toot.entities import (
     from_response,
     from_response_list,
 )
-from toot.output import get_continue, get_max_width, get_terminal_height, print_timeline, status_lines
+from toot.output import (
+    get_continue,
+    get_max_width,
+    get_terminal_height,
+    print_timeline,
+    status_lines,
+)
 from toot.utils import drop_empty_values, str_bool_nullable
 
 

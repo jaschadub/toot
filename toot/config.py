@@ -1,13 +1,11 @@
 import json
 import os
-
 from contextlib import contextmanager
 from os.path import dirname, join
 from typing import Optional
 
-from toot import User, App, get_config_dir
+from toot import App, User, get_config_dir
 from toot.exceptions import ConsoleError
-
 
 TOOT_CONFIG_FILE_NAME = "config.json"
 
@@ -18,7 +16,7 @@ def get_config_file_path():
 
 
 def user_id(user: User):
-    return "{}@{}".format(user.username, user.instance)
+    return f"{user.username}@{user.instance}"
 
 
 def make_config(path: str):
@@ -100,7 +98,7 @@ def load_user(user_id: str, throw=False):
         return User(**config['users'][user_id])
 
     if throw:
-        raise ConsoleError("User '{}' not found".format(user_id))
+        raise ConsoleError(f"User '{user_id}' not found")
 
 
 def get_user_list():

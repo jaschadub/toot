@@ -1,4 +1,5 @@
 from uuid import uuid4
+
 from tests.integration.conftest import TRUMPET, assert_ok
 from toot import api, cli
 from toot.entities import Account, from_dict

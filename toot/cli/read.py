@@ -1,15 +1,28 @@
-import click
 import json as pyjson
-
 from itertools import chain
 from typing import Optional
 
+import click
+
 from toot import api
+from toot.cli import (
+    Context,
+    InstanceParamType,
+    cli,
+    get_context,
+    json_option,
+    pass_context,
+)
 from toot.cli.validators import validate_instance
-from toot.entities import Instance, Status, from_dict, Account
+from toot.entities import Account, Instance, Status, from_dict
 from toot.exceptions import ApiError, ConsoleError
-from toot.output import print_account, print_instance, print_search_results, print_status, print_timeline
-from toot.cli import InstanceParamType, cli, get_context, json_option, pass_context, Context
+from toot.output import (
+    print_account,
+    print_instance,
+    print_search_results,
+    print_status,
+    print_timeline,
+)
 
 
 @cli.command()

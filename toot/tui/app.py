@@ -1,14 +1,12 @@
 import logging
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timezone
+from typing import NamedTuple, Optional
+
 import urwid
 
-
-from concurrent.futures import ThreadPoolExecutor
-from typing import NamedTuple, Optional
-from datetime import datetime, timezone
-
-from toot import api, config, __version__, settings
-from toot import App, User
+from toot import App, User, __version__, api, config, settings
 from toot.cli import get_default_visibility
 from toot.utils.datetime import parse_datetime
 
@@ -16,11 +14,19 @@ from .compose import StatusComposer
 from .constants import PALETTE
 from .entities import Status
 from .images import TuiScreen, load_image
-from .overlays import ExceptionStackTrace, GotoMenu, Help, StatusSource, StatusLinks, StatusZoom
-from .overlays import StatusDeleteConfirmation, Account
+from .overlays import (
+    Account,
+    ExceptionStackTrace,
+    GotoMenu,
+    Help,
+    StatusDeleteConfirmation,
+    StatusLinks,
+    StatusSource,
+    StatusZoom,
+)
 from .poll import Poll
 from .timeline import Timeline
-from .utils import get_max_toot_chars, parse_content_links, copy_to_clipboard, LRUCache
+from .utils import LRUCache, copy_to_clipboard, get_max_toot_chars, parse_content_links
 from .widgets import ModalBox, RoundedLineBox
 
 logger = logging.getLogger(__name__)
@@ -50,7 +56,7 @@ class Header(urwid.WidgetWrap):
         self.text = urwid.Text("")
         self.cols = urwid.Columns([
             ("pack", urwid.Text(('header_bold', 'toot'))),
-            ("pack", urwid.Text(('header', ' | {}@{}'.format(user.username, app.instance)))),
+            ("pack", urwid.Text(('header', f' | {user.username}@{app.instance}'))),
             ("pack", self.text),
         ])
 
@@ -170,7 +176,7 @@ class TUI(urwid.Frame):
         # NB: Padding with width="clip" will convert the fixed BigText widget
         # to a flow widget so it can be used in a Pile.
 
-        big_text = "Toot {}".format(__version__)
+        big_text = f"Toot {__version__}"
         big_text = urwid.BigText(("intro_bigtext", big_text), font)
         big_text = urwid.Padding(big_text, align="center", width="clip")
 
@@ -238,10 +244,10 @@ class TUI(urwid.Frame):
             timelines = self.config.setdefault("timelines", {})
             if hashtag in timelines:
                 del timelines[hashtag]
-                self.footer.set_message("#{} unpinned".format(hashtag))
+                self.footer.set_message(f"#{hashtag} unpinned")
             else:
                 timelines[hashtag] = {"local": local}
-                self.footer.set_message("#{} pinned".format(hashtag))
+                self.footer.set_message(f"#{hashtag} pinned")
             self.loop.set_alarm_in(5, lambda *args: self.footer.clear_message())
             config.save_config(self.config)
 
@@ -386,7 +392,7 @@ class TUI(urwid.Frame):
         """Show status details in footer."""
         status, index, count = timeline.get_focused_status_with_counts()
         self.footer.set_status([
-            ("footer_status_bold", "[{}] ".format(timeline.name)),
+            ("footer_status_bold", f"[{timeline.name}] "),
         ] + ([status.id, " - status ", str(index + 1), " of ", str(count)]
             if status else ["no focused status"]))
 
@@ -554,7 +560,7 @@ class TUI(urwid.Frame):
         self.timeline_generator = api.tag_timeline_generator(
             self.app, self.user, tag, local=local, limit=40)
         promise = self.async_load_timeline(
-            is_initial=True, timeline_name="#{}".format(tag), local=local,
+            is_initial=True, timeline_name=f"#{tag}", local=local,
         )
         promise.add_done_callback(lambda *args: self.close_overlay())
 
@@ -625,7 +631,7 @@ class TUI(urwid.Frame):
 
         # TODO: fetch new items from the timeline?
 
-        self.footer.set_message("Status posted {} \\o/".format(status.id))
+        self.footer.set_message(f"Status posted {status.id} \\o/")
         self.close_overlay()
 
     def edit_status(self, status, content, warning, visibility, in_reply_to_id):
@@ -658,7 +664,7 @@ class TUI(urwid.Frame):
 
         new_status = self.make_status(data)
 
-        self.footer.set_message("Status edited {} \\o/".format(status.id))
+        self.footer.set_message(f"Status edited {status.id} \\o/")
         self.close_overlay()
 
         if self.timeline is not None:
@@ -709,7 +715,7 @@ class TUI(urwid.Frame):
         no_reblog_because_private = status.visibility == "private" and not status.is_mine
         no_reblog_because_direct = status.visibility == "direct"
         if no_reblog_because_private or no_reblog_because_direct:
-            self.footer.set_error_message("You may not reblog this {} status".format(status.visibility))
+            self.footer.set_error_message(f"You may not reblog this {status.visibility} status")
             return
 
         self.run_in_thread(
@@ -719,7 +725,7 @@ class TUI(urwid.Frame):
 
     def async_translate(self, timeline, status):
         def _translate():
-            self.footer.set_message("Translating status {}".format(status.original.id))
+            self.footer.set_message(f"Translating status {status.original.id}")
 
             try:
                 response = api.translate(self.app, self.user, status.original.id)

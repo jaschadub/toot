@@ -83,12 +83,12 @@ class Status:
 
     def _get_author(self):
         acct = self.data['account']['acct']
-        acct = acct if "@" in acct else "{}@{}".format(acct, self.default_instance)
+        acct = acct if "@" in acct else f"{acct}@{self.default_instance}"
         return Author(acct, self.data['account']['display_name'], self.data['account']['username'])
 
     def _get_account(self):
         acct = self.data['account']['acct']
-        return acct if "@" in acct else "{}@{}".format(acct, self.default_instance)
+        return acct if "@" in acct else f"{acct}@{self.default_instance}"
 
     def __repr__(self):
-        return "<Status id={} account={}>".format(self.id, self.account)
+        return f"<Status id={self.id} account={self.account}>"

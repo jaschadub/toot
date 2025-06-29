@@ -10,12 +10,21 @@ different versions of the Mastodon API.
 
 import dataclasses
 import typing as t
-
 from dataclasses import dataclass, is_dataclass
 from datetime import date, datetime
 from functools import lru_cache
-from typing import Any, Dict, NamedTuple, Optional, Type, TypeVar, Union
-from typing import get_args, get_origin, get_type_hints
+from typing import (
+    Any,
+    Dict,
+    NamedTuple,
+    Optional,
+    Type,
+    TypeVar,
+    Union,
+    get_args,
+    get_origin,
+    get_type_hints,
+)
 
 from requests import Response
 

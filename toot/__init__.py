@@ -1,10 +1,8 @@
 import os
 import sys
-
-from os.path import join, expanduser
-from typing import NamedTuple
 from importlib import metadata
-
+from os.path import expanduser, join
+from typing import NamedTuple
 
 try:
     __version__ = metadata.version("toot")

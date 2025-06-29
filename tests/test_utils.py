@@ -1,15 +1,16 @@
+import sys
+from collections import namedtuple
 from datetime import datetime
+
 import click
 import pytest
-import sys
+from PIL import Image
 
 from toot.cli.validators import validate_duration
-from toot.utils.datetime import parse_datetime
-from toot.wcstring import wc_wrap, trunc, pad, fit_text
 from toot.tui.utils import LRUCache
-from PIL import Image
-from collections import namedtuple
 from toot.utils import batched, urlencode_url
+from toot.utils.datetime import parse_datetime
+from toot.wcstring import fit_text, pad, trunc, wc_wrap
 
 
 def test_pad():

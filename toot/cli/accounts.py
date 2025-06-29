@@ -1,10 +1,10 @@
-import click
 import json as pyjson
-
 from typing import BinaryIO, Optional
 
+import click
+
 from toot import api
-from toot.cli import PRIVACY_CHOICES, cli, json_option, Context, pass_context
+from toot.cli import PRIVACY_CHOICES, Context, cli, json_option, pass_context
 from toot.cli.validators import validate_language
 from toot.output import print_acct_list
 

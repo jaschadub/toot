@@ -5,7 +5,7 @@ Utilities for dealing with string containing wide characters.
 import re
 from typing import Generator, List
 
-from wcwidth import wcwidth, wcswidth
+from wcwidth import wcswidth, wcwidth
 
 
 def _wc_hard_wrap(line: str, length: int) -> Generator[str, None, None]:

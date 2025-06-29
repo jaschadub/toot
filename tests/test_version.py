@@ -1,5 +1,6 @@
-import toot
 from pkg_resources import get_distribution
+
+import toot
 
 
 def test_version():

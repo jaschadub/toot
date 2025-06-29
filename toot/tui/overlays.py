@@ -1,15 +1,14 @@
 import json
 import traceback
-import urwid
 import webbrowser
 
-from toot import __version__
-from toot import api
+import urwid
 
-from toot.tui.utils import highlight_keys
-from toot.tui.images import image_support_enabled, load_image, graphics_widget
-from toot.tui.widgets import Button, EditBox, SelectableText
+from toot import __version__, api
+from toot.tui.images import graphics_widget, image_support_enabled, load_image
 from toot.tui.richtext import html_to_widgets
+from toot.tui.utils import highlight_keys
+from toot.tui.widgets import Button, EditBox, SelectableText
 
 
 class StatusSource(urwid.Padding):
@@ -200,7 +199,7 @@ class Help(urwid.Padding):
         def h(text):
             return highlight_keys(text, "shortcut")
 
-        yield urwid.Text(("bold", "toot {}".format(__version__)))
+        yield urwid.Text(("bold", f"toot {__version__}"))
         yield urwid.Divider()
         yield urwid.Text(("bold", "General usage"))
         yield urwid.Divider()

@@ -14,14 +14,15 @@ export TOOT_TEST_BASE_URL="localhost:3000"
 
 import json
 import os
-import pytest
 import re
 import typing as t
 import uuid
-
-from click.testing import CliRunner, Result
 from pathlib import Path
-from toot import api, App, User
+
+import pytest
+from click.testing import CliRunner, Result
+
+from toot import App, User, api
 from toot.cli import Context, TootObj
 
 

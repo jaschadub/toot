@@ -1,0 +1,375 @@
+/* Tootles High Contrast Theme - Accessibility Focused */
+
+/* App container */
+.app-container {
+    background: #000000;
+    color: #ffffff;
+}
+
+/* Screen container */
+.screen-container {
+    background: #000000;
+    border: solid #ffffff;
+}
+
+/* Navigation sidebar */
+.sidebar-navigation {
+    background: #000000;
+    border-right: solid #ffffff;
+    width: 20;
+}
+
+.nav-item {
+    padding: 1;
+    margin: 0 1;
+    background: transparent;
+    color: #ffffff;
+}
+
+.nav-item:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.nav-item--active {
+    background: #ffffff;
+    color: #000000;
+    text-style: bold;
+}
+
+/* Main content area */
+.main-content {
+    background: #000000;
+    padding: 1;
+}
+
+/* Status display */
+.status-list {
+    background: #000000;
+    border: solid #ffffff;
+}
+
+.status-item {
+    padding: 1;
+    margin-bottom: 1;
+    background: #000000;
+    border: solid #ffffff;
+}
+
+.status-item:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.status-item--focused {
+    border: solid #ffff00;
+    background: #000000;
+    color: #ffff00;
+}
+
+.status-header {
+    color: #ffffff;
+    text-style: bold;
+}
+
+.status-content {
+    color: #ffffff;
+    margin: 1 0;
+}
+
+.status-actions {
+    color: #ffffff;
+    margin-top: 1;
+}
+
+.status-metadata {
+    color: #ffffff;
+    text-style: italic;
+}
+
+/* Interactive elements */
+.button {
+    background: #ffffff;
+    color: #000000;
+    border: solid #ffffff;
+    padding: 0 2;
+    text-style: bold;
+}
+
+.button:hover {
+    background: #000000;
+    color: #ffffff;
+    border: solid #ffffff;
+}
+
+.button--primary {
+    background: #ffffff;
+    color: #000000;
+    text-style: bold;
+}
+
+.button--secondary {
+    background: #000000;
+    color: #ffffff;
+    border: solid #ffffff;
+}
+
+.button--danger {
+    background: #ff0000;
+    color: #ffffff;
+    border: solid #ff0000;
+}
+
+.input-field {
+    background: #000000;
+    color: #ffffff;
+    border: solid #ffffff;
+    padding: 0 1;
+}
+
+.input-field:focus {
+    border-color: #ffff00;
+    background: #000000;
+    color: #ffff00;
+}
+
+/* Timeline Widget */
+.timeline-widget {
+    background: #000000;
+    border: solid #ffffff;
+    padding: 1;
+}
+
+.timeline-header {
+    background: #ffffff;
+    color: #000000;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid #ffffff;
+}
+
+.timeline-content {
+    background: #000000;
+    padding: 0;
+}
+
+.timeline-loading {
+    color: #ffffff;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-error {
+    color: #ff0000;
+    text-style: bold;
+    text-align: center;
+    padding: 2;
+}
+
+.timeline-empty {
+    color: #ffffff;
+    text-style: italic;
+    text-align: center;
+    padding: 2;
+}
+
+/* Status Widget */
+.status-widget {
+    background: #000000;
+    border: solid #ffffff;
+    padding: 1;
+    margin-bottom: 1;
+}
+
+.status-widget:hover {
+    background: #ffffff;
+    color: #000000;
+    border-color: #000000;
+}
+
+.status-widget--focused {
+    border-color: #ffff00;
+    background: #000000;
+    color: #ffff00;
+}
+
+.status-author {
+    color: #ffffff;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.status-author-handle {
+    color: #ffffff;
+    text-style: normal;
+}
+
+.status-text {
+    color: #ffffff;
+    margin: 1 0;
+    line-height: 1.4;
+}
+
+.status-timestamp {
+    color: #ffffff;
+    text-style: italic;
+    margin-top: 1;
+}
+
+.status-stats {
+    color: #ffffff;
+    margin-top: 1;
+    text-style: dim;
+}
+
+/* Compose Widget */
+.compose-widget {
+    background: #000000;
+    border: solid #ffffff;
+    padding: 1;
+}
+
+.compose-header {
+    background: #ffffff;
+    color: #000000;
+    text-style: bold;
+    padding: 1;
+    border-bottom: solid #ffffff;
+    margin-bottom: 1;
+}
+
+.compose-textarea {
+    background: #000000;
+    color: #ffffff;
+    border: solid #ffffff;
+    padding: 1;
+    margin-bottom: 1;
+    min-height: 6;
+}
+
+.compose-textarea:focus {
+    border-color: #ffff00;
+    color: #ffff00;
+}
+
+.compose-controls {
+    background: #ffffff;
+    color: #000000;
+    padding: 1;
+    border-top: solid #ffffff;
+}
+
+.compose-char-count {
+    color: #000000;
+    text-style: dim;
+}
+
+.compose-char-count--warning {
+    color: #ff8800;
+    text-style: bold;
+}
+
+.compose-char-count--error {
+    color: #ff0000;
+    text-style: bold;
+}
+
+.compose-button {
+    background: #ffffff;
+    color: #000000;
+    border: solid #ffffff;
+    padding: 0 2;
+    margin-right: 1;
+    text-style: bold;
+}
+
+.compose-button:hover {
+    background: #000000;
+    color: #ffffff;
+    border: solid #ffffff;
+}
+
+.compose-button--secondary {
+    background: #000000;
+    color: #ffffff;
+    border: solid #ffffff;
+}
+
+.compose-button--secondary:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* Home Screen Layout */
+.home-screen {
+    background: #000000;
+}
+
+.home-layout {
+    background: #000000;
+}
+
+.home-timeline {
+    background: #000000;
+    border-right: solid #ffffff;
+}
+
+.home-compose {
+    background: #000000;
+    min-width: 30;
+    max-width: 40;
+}
+
+/* Scrollable containers */
+.scrollable {
+    scrollbar-background: #000000;
+    scrollbar-color: #ffffff;
+    scrollbar-corner-color: #000000;
+}
+
+.scrollable:hover {
+    scrollbar-color: #ffff00;
+}
+
+/* Focus indicators */
+.focusable:focus {
+    border-color: #ffff00;
+    outline: solid #ffff00;
+}
+
+/* Error states */
+.error-message {
+    background: #ff0000;
+    color: #ffffff;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+    border: solid #ffffff;
+}
+
+.warning-message {
+    background: #ff8800;
+    color: #000000;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+    border: solid #000000;
+}
+
+.info-message {
+    background: #0088ff;
+    color: #ffffff;
+    padding: 1;
+    text-align: center;
+    border: solid #ffffff;
+}
+
+.success-message {
+    background: #00ff00;
+    color: #000000;
+    padding: 1;
+    text-style: bold;
+    text-align: center;
+    border: solid #000000;
+}

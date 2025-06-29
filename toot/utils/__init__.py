@@ -1,17 +1,17 @@
-import platform
-import click
 import os
+import platform
 import re
 import subprocess
 import tempfile
 import unicodedata
 import warnings
-
-from bs4 import BeautifulSoup
 from importlib.metadata import version
 from itertools import islice
 from typing import Any, Dict, Generator, Iterable, List, Optional, TypeVar
-from urllib.parse import urlparse, urlencode, quote, unquote
+from urllib.parse import quote, unquote, urlencode, urlparse
+
+import click
+from bs4 import BeautifulSoup
 
 
 def str_bool(b: bool) -> str:

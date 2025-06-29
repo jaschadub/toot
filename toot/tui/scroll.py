@@ -149,7 +149,7 @@ class Scrollable(urwid.WidgetDecoration):
                                     break
 
                             pwi += 1
-                except Exception as e:
+                except Exception:
                     pass
 
             else:
@@ -321,7 +321,7 @@ class ScrollBar(urwid.WidgetDecoration):
     def selectable(self):
         return True
 
-    def __init__(self, widget, thumb_char=u'\u2588', trough_char=' ',
+    def __init__(self, widget, thumb_char='\u2588', trough_char=' ',
                  side=SCROLLBAR_RIGHT, width=1):
         """Box widget that adds a scrollbar to `widget`
 

@@ -1,11 +1,12 @@
 import base64
 import re
 import sys
-import urwid
 from collections import OrderedDict
 from functools import reduce
 from html.parser import HTMLParser
 from typing import List
+
+import urwid
 
 HASHTAG_PATTERN = re.compile(r'(?<!\w)(#\w+)\b')
 

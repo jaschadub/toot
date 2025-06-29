@@ -1,14 +1,14 @@
 import re
-import urwid
 import unicodedata
-
-from bs4.element import NavigableString, Tag
-from toot.tui.constants import PALETTE
-from toot.utils import parse_html, urlencode_url
 from typing import List, Tuple
+
+import urwid
+from bs4.element import NavigableString, Tag
 from urwid.util import decompose_tagmarkup
 from urwidgets import Hyperlink, TextEmbed
 
+from toot.tui.constants import PALETTE
+from toot.utils import parse_html, urlencode_url
 
 STYLE_NAMES = [p[0] for p in PALETTE]
 

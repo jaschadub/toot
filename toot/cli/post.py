@@ -1,19 +1,25 @@
-import click
 import os
 import sys
-
 from datetime import datetime, timedelta, timezone
 from time import sleep, time
 from typing import BinaryIO, Optional, Tuple
 
+import click
+
 from toot import api, config
 from toot.cache import get_last_post_id, save_last_post_id
-from toot.cli import AccountParamType, cli, json_option, pass_context, Context
-from toot.cli import DURATION_EXAMPLES, VISIBILITY_CHOICES
-from toot.tui.constants import VISIBILITY_OPTIONS  # move to top-level ?
-
+from toot.cli import (
+    DURATION_EXAMPLES,
+    VISIBILITY_CHOICES,
+    AccountParamType,
+    Context,
+    cli,
+    json_option,
+    pass_context,
+)
 from toot.cli.validators import validate_duration, validate_language
 from toot.entities import MediaAttachment, from_dict
+from toot.tui.constants import VISIBILITY_OPTIONS  # move to top-level ?
 from toot.utils import EOF_KEY, delete_tmp_status_file, editor_input, multiline_input
 from toot.utils.datetime import parse_datetime
 
@@ -42,7 +48,7 @@ from toot.utils.datetime import parse_datetime
 @click.option(
     "--visibility", "-v",
     help="Post visibility: " + "; "
-      .join("{} = {}".format(visibility, description)
+      .join(f"{visibility} = {description}"
       for visibility, caption, description in VISIBILITY_OPTIONS),
     type=click.Choice(VISIBILITY_CHOICES),
 )

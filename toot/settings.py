@@ -1,9 +1,10 @@
 from functools import lru_cache
 from os.path import exists, join
-from tomlkit import parse
-from toot import get_config_dir
 from typing import Optional, Type, TypeVar
 
+from tomlkit import parse
+
+from toot import get_config_dir
 
 DISABLE_SETTINGS = False
 

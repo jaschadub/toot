@@ -3,8 +3,9 @@ import urwid
 from toot import api
 from toot.exceptions import ApiError
 from toot.utils.datetime import parse_datetime
-from .widgets import Button, CheckBox, RadioButton, RoundedLineBox
+
 from .richtext import html_to_widgets
+from .widgets import Button, CheckBox, RadioButton, RoundedLineBox
 
 
 class Poll(urwid.ListBox):
@@ -79,7 +80,7 @@ class Poll(urwid.ListBox):
             expires_at = parse_datetime(poll["expires_at"]).strftime(
                 "%Y-%m-%d %H:%M"
             )
-            poll_detail += " · Closes on {}".format(expires_at)
+            poll_detail += f" · Closes on {expires_at}"
 
         yield urwid.Text(("dim", poll_detail))
 

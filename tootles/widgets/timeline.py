@@ -81,7 +81,7 @@ class Timeline(Widget):
                 yield Label(self._empty_message, classes="empty-message")
             else:
                 for status in self._statuses:
-                    status_widget = StatusWidget(status)
+                    status_widget = StatusWidget(status, self.app_ref)
                     self._status_widgets.append(status_widget)
                     yield status_widget
 
@@ -121,7 +121,7 @@ class Timeline(Widget):
 
         # Add new status widgets
         for status in statuses:
-            status_widget = StatusWidget(status)
+            status_widget = StatusWidget(status, self.app_ref)
             self._status_widgets.append(status_widget)
 
         self.refresh(recompose=True)
@@ -199,7 +199,9 @@ class TimelineWidget(Widget):
         self,
         statuses: Optional[List[Status]] = None,
         empty_message: str = "No statuses to display",
-        load_callback: Optional[Callable[[str, Optional[str]], Awaitable[List[Status]]]] = None,
+        load_callback: Optional[
+            Callable[[str, Optional[str]], Awaitable[List[Status]]]
+        ] = None,
         **kwargs
     ):
         """Initialize the timeline widget.
@@ -234,7 +236,9 @@ class TimelineWidget(Widget):
                 max_id = self._timeline.get_oldest_id()
                 since_id = None
 
-            new_statuses = await self._load_callback(event.direction, max_id or since_id)
+            new_statuses = await self._load_callback(
+                event.direction, max_id or since_id
+            )
 
             if new_statuses:
                 if event.direction == "newer":

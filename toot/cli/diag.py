@@ -94,7 +94,7 @@ def print_settings(include_files: bool):
     if path.exists(settings_path):
         click.echo(f"Settings file: {settings_path}")
         if include_files:
-            with open(settings_path, "r") as f:
+            with open(settings_path) as f:
                 click.echo("\n```toml")
                 click.echo(f.read().strip())
                 click.echo("```\n")
@@ -117,7 +117,7 @@ def print_config(include_files: bool):
 
 
 def _get_anonymized_config(config_path):
-    with open(config_path, "r") as f:
+    with open(config_path) as f:
         content = json.load(f)
 
         for app in content.get("apps", {}).values():

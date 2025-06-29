@@ -1,7 +1,8 @@
-from toot import api, config, User, App
-from toot.entities import from_dict, Instance
-from toot.exceptions import ApiError, ConsoleError
 from urllib.parse import urlparse
+
+from toot import App, User, api, config
+from toot.entities import Instance, from_dict
+from toot.exceptions import ApiError, ConsoleError
 
 
 def find_instance(base_url: str) -> Instance:

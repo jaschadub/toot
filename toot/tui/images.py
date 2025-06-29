@@ -1,14 +1,15 @@
-import urwid
 import math
-import requests
 import warnings
+
+import requests
+import urwid
 
 # If term_image is loaded use their screen implementation which handles images
 try:
-    from term_image.widget import UrwidImageScreen, UrwidImage
-    from term_image.image import BaseImage, KittyImage, ITerm2Image, BlockImage
-    from term_image import disable_queries  # prevent phantom keystrokes
     from PIL import Image, ImageDraw
+    from term_image import disable_queries  # prevent phantom keystrokes
+    from term_image.image import BaseImage, BlockImage, ITerm2Image, KittyImage
+    from term_image.widget import UrwidImage, UrwidImageScreen
 
     _IMAGE_PIXEL_FORMATS = frozenset({'kitty', 'iterm'})
     _ImageCls = None
@@ -48,7 +49,7 @@ try:
             img = img.resize((width, baseheight), Image.Resampling.LANCZOS)
         elif basewidth and not baseheight:
             wpercent = (basewidth / float(img.size[0]))
-            hsize = int((float(img.size[1]) * float(wpercent)))
+            hsize = int(float(img.size[1]) * float(wpercent))
             img = img.resize((basewidth, hsize), Image.Resampling.LANCZOS)
         else:
             img = img.resize((basewidth, baseheight), Image.Resampling.LANCZOS)
