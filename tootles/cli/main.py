@@ -6,7 +6,7 @@ from typing import Optional
 
 import click
 
-from tootles.main import run_app
+from tootles.main import main as run_app
 
 
 @click.command()

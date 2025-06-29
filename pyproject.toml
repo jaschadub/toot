@@ -36,6 +36,7 @@ dependencies = [
     "fuzzywuzzy>=0.18.0",
     "python-levenshtein>=0.20.0",
     "wcwidth>=0.1.7",
+    "watchdog>=3.0.0",
 ]
 
 [project.optional-dependencies]
