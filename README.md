@@ -1,4 +1,4 @@
-# Tootles
+<img src="logo.png" alt="Tootles" width="400" height="400">
 
 A modern Textual-based Mastodon client with web UI parity and advanced theming.
 
