@@ -1,6 +1,6 @@
 """Main Tootles application."""
 
-from typing import Optional
+from typing import List, Optional
 
 from textual.app import App, ComposeResult
 from textual.binding import Binding
@@ -9,6 +9,7 @@ from textual.css.query import NoMatches
 from textual.widgets import Footer, Header, Static
 
 from tootles.api.client import MastodonClient
+from tootles.api.models import Status
 from tootles.config.manager import ConfigManager
 from tootles.screens.account import AccountScreen
 from tootles.screens.explore import ExploreScreen
@@ -23,7 +24,7 @@ from tootles.widgets.timeline import TimelineWidget
 class TootlesApp(App):
     """Main Tootles application class."""
 
-    CSS_PATH = "themes/builtin/default.css"
+    CSS_PATH = "themes/builtin/standard.css"
 
     BINDINGS = [
         Binding("ctrl+q", "quit", "Quit"),
@@ -67,6 +68,39 @@ class TootlesApp(App):
         if self.theme_manager.current_css:
             self.stylesheet.add_source(self.theme_manager.current_css)
 
+        # Load initial timeline data if we have an API client
+        if self.api_client:
+            await self._load_initial_timeline()
+    async def _load_home_timeline(self, timeline_type: str = "home", max_id: Optional[str] = None) -> List[Status]:
+        """Load statuses from the home timeline."""
+        if not self.api_client:
+            return []
+
+        try:
+            return await self.api_client.get_home_timeline(max_id=max_id)
+        except Exception as e:
+            self.notify(f"Error loading timeline: {e}", severity="error")
+            return []
+
+    async def _load_initial_timeline(self) -> None:
+        """Load initial timeline data after app initialization."""
+        try:
+            timeline_widget = self.query_one("#main-timeline", TimelineWidget)
+            timeline_widget.set_loading(True)
+
+            statuses = await self._load_home_timeline("home", None)
+            if statuses:
+                timeline_widget.update_statuses(statuses)
+        except Exception:
+            # Timeline widget might not exist yet or other error
+            pass
+        finally:
+            try:
+                timeline_widget = self.query_one("#main-timeline", TimelineWidget)
+                timeline_widget.set_loading(False)
+            except Exception:
+                pass
+
     def compose(self) -> ComposeResult:
         """Create the main application layout."""
         yield Header()
@@ -77,10 +111,12 @@ class TootlesApp(App):
 
             # Main content area
             with Vertical(id="main-content"):
-                if self.api_client:
+                # Check config directly since api_client isn't created yet during compose
+                config = self.config_manager.config
+                if config.instance_url and config.access_token:
                     yield TimelineWidget(
-                        self,
-                        timeline_type="home",
+                        empty_message="No posts in your timeline yet. Follow some accounts to see their posts here!",
+                        load_callback=self._load_home_timeline,
                         id="main-timeline"
                     )
                 else:
@@ -106,7 +142,11 @@ class TootlesApp(App):
 
         self.current_timeline = "home"
         self.replace_main_content(
-            TimelineWidget(self, timeline_type="home", id="main-timeline")
+            TimelineWidget(
+                empty_message="No posts in your timeline yet. Follow some accounts to see their posts here!",
+                load_callback=self._load_home_timeline,
+                id="main-timeline"
+            )
         )
 
     def action_show_notifications(self) -> None:
@@ -142,7 +182,10 @@ class TootlesApp(App):
 
         self.current_timeline = "bookmarks"
         self.replace_main_content(
-            TimelineWidget(self, timeline_type="bookmarks", id="main-timeline")
+            TimelineWidget(
+                empty_message="No bookmarked posts yet.",
+                id="main-timeline"
+            )
         )
 
     def action_show_favorites(self) -> None:
@@ -156,7 +199,10 @@ class TootlesApp(App):
 
         self.current_timeline = "favorites"
         self.replace_main_content(
-            TimelineWidget(self, timeline_type="favorites", id="main-timeline")
+            TimelineWidget(
+                empty_message="No favorite posts yet.",
+                id="main-timeline"
+            )
         )
 
     def action_show_lists(self) -> None:
@@ -211,7 +257,7 @@ class TootlesApp(App):
     async def action_toggle_theme(self) -> None:
         """Toggle between available themes."""
         config = self.config_manager.config
-        themes = ["default", "dark", "light", "high-contrast"]
+        themes = ["standard", "dark", "light", "high-contrast"]
 
         current_index = themes.index(config.theme) if config.theme in themes else 0
         next_index = (current_index + 1) % len(themes)
@@ -248,7 +294,11 @@ class TootlesApp(App):
             try:
                 self.query_one("#welcome-message")
                 self.replace_main_content(
-                    TimelineWidget(self, timeline_type="home", id="main-timeline")
+                    TimelineWidget(
+                        empty_message="No posts in your timeline yet. Follow some accounts to see their posts here!",
+                        load_callback=self._load_home_timeline,
+                        id="main-timeline"
+                    )
                 )
             except NoMatches:
                 # Welcome message not shown, nothing to replace

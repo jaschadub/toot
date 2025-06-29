@@ -168,7 +168,7 @@ def setup(instance: str):
         config_manager = ConfigManager()
         config_manager.config.instance_url = instance
         config_manager.config.access_token = access_token
-        config_manager.save_config()
+        config_manager.save()
 
         click.echo(f"✓ Configuration saved to {config_manager.config_path}")
         click.echo("\n🎉 Setup complete! You can now run 'tootles' to start the application.")

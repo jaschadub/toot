@@ -54,9 +54,9 @@ class SettingsScreen(BaseScreen):
                 with Horizontal(classes="setting-row"):
                     yield Label("Theme:", classes="setting-label")
                     theme_options = [(theme, theme.title()) for theme in self.theme_manager.get_available_themes()]
+                    # Create Select without initial value to avoid validation error during creation
                     yield Select(
                         options=theme_options,
-                        value=self.config_manager.config.theme,
                         id="theme-select",
                         classes="setting-select"
                     )
@@ -123,6 +123,21 @@ class SettingsScreen(BaseScreen):
                 yield Button("Reset to Defaults", id="reset-btn", variant="default")
                 yield Button("Export Theme Template", id="export-template-btn", variant="default")
                 yield Button("Back", id="back-btn", variant="default")
+
+    async def on_mount(self) -> None:
+        """Set initial values after mount."""
+        # Set the initial theme value after the Select widget is fully initialized
+        try:
+            theme_select = self.query_one("#theme-select", Select)
+            current_theme = self.config_manager.config.theme
+            available_themes = self.theme_manager.get_available_themes()
+            if current_theme in available_themes:
+                theme_select.value = current_theme
+            elif available_themes:
+                theme_select.value = available_themes[0]
+        except Exception as e:
+            # If setting the value fails, just log it and continue
+            self.notify(f"Could not set initial theme: {e}", severity="warning")
 
     async def on_button_pressed(self, event: Button.Pressed) -> None:
         """Handle button press events."""
@@ -191,7 +206,16 @@ class SettingsScreen(BaseScreen):
             # Update inputs with default values
             self.query_one("#instance-url", Input).value = default_config.instance_url
             self.query_one("#access-token", Input).value = default_config.access_token
-            self.query_one("#theme-select", Select).value = default_config.theme
+            
+            # Handle theme select more carefully
+            theme_select = self.query_one("#theme-select", Select)
+            available_themes = self.theme_manager.get_available_themes()
+            if default_config.theme in available_themes:
+                theme_select.value = default_config.theme
+            elif available_themes:
+                # Fall back to first available theme if default not available
+                theme_select.value = available_themes[0]
+            
             self.query_one("#hot-reload-checkbox", Checkbox).value = (
                 default_config.enable_theme_hot_reload
             )

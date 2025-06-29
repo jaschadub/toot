@@ -307,3 +307,27 @@ class MastodonClient:
         """
         data = await self._request("POST", f"statuses/{status_id}/unreblog")
         return Status.from_dict(data)
+
+    async def bookmark_status(self, status_id: str) -> Status:
+        """Bookmark a status.
+
+        Args:
+            status_id: ID of the status to bookmark
+
+        Returns:
+            The bookmarked Status object
+        """
+        data = await self._request("POST", f"statuses/{status_id}/bookmark")
+        return Status.from_dict(data)
+
+    async def unbookmark_status(self, status_id: str) -> Status:
+        """Unbookmark a status.
+
+        Args:
+            status_id: ID of the status to unbookmark
+
+        Returns:
+            The unbookmarked Status object
+        """
+        data = await self._request("POST", f"statuses/{status_id}/unbookmark")
+        return Status.from_dict(data)

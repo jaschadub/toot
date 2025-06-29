@@ -58,6 +58,7 @@ class Timeline(Widget):
         self,
         statuses: Optional[List[Status]] = None,
         empty_message: str = "No statuses to display",
+        app_ref=None,
         **kwargs
     ):
         """Initialize the timeline widget.
@@ -65,12 +66,14 @@ class Timeline(Widget):
         Args:
             statuses: Initial list of statuses to display
             empty_message: Message to show when timeline is empty
+            app_ref: Reference to the main application
         """
         super().__init__(**kwargs)
         self._statuses: List[Status] = statuses or []
         self._empty_message = empty_message
         self._loading = False
         self._status_widgets: List[StatusWidget] = []
+        self.app_ref = app_ref
 
     def compose(self) -> ComposeResult:
         """Compose the timeline layout."""
@@ -212,12 +215,28 @@ class TimelineWidget(Widget):
             load_callback: Async callback for loading more statuses
         """
         super().__init__(**kwargs)
-        self._timeline = Timeline(statuses, empty_message)
+        self._timeline = Timeline(statuses, empty_message, app_ref=self.app)
         self._load_callback = load_callback
 
     def compose(self) -> ComposeResult:
         """Compose the timeline widget layout."""
         yield self._timeline
+    async def on_mount(self) -> None:
+        """Load initial timeline data when the widget is mounted."""
+        if self._load_callback:
+            try:
+                self._timeline.set_loading(True)
+                initial_statuses = await self._load_callback("home", None)
+                if initial_statuses:
+                    self._timeline.update_statuses(initial_statuses)
+                else:
+                    # No statuses returned, keep empty message
+                    pass
+            except Exception:
+                # Handle errors gracefully - the empty message will be shown
+                self.log.warning("Failed to load timeline data")
+            finally:
+                self._timeline.set_loading(False)
 
     async def on_timeline_load_more(self, event: Timeline.LoadMore) -> None:
         """Handle load more requests."""

@@ -14,7 +14,7 @@ class TootlesConfig:
     access_token: str = ""
 
     # UI settings
-    theme: str = "default"
+    theme: str = "standard"
     auto_refresh: bool = True
     refresh_interval: int = 60
     show_media_previews: bool = True

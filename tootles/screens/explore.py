@@ -263,7 +263,7 @@ class ExploreScreen(BaseScreen):
 
     .explore-tab.active {
         background: $primary;
-        color: $text-on-primary;
+        color: $text-primary;
     }
 
     #explore-content {

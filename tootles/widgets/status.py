@@ -210,12 +210,12 @@ class StatusWidget(Widget):
             display_status = self.status.reblog if self.status.reblog else self.status
 
             if display_status.favourited:
-                await self.app_ref.api_client.unfavorite_status(display_status.id)
+                await self.app_ref.api_client.unfavourite_status(display_status.id)
                 display_status.favourited = False
                 display_status.favourites_count -= 1
                 self.app.notify("Unfavorited", severity="success")
             else:
-                await self.app_ref.api_client.favorite_status(display_status.id)
+                await self.app_ref.api_client.favourite_status(display_status.id)
                 display_status.favourited = True
                 display_status.favourites_count += 1
                 self.app.notify("Favorited!", severity="success")
@@ -280,7 +280,8 @@ class StatusWidget(Widget):
                 bookmark_btn.variant = "default"
 
         except Exception:
-            pass  # Buttons might not be mounted yet
+            # Buttons might not be mounted yet during initialization
+            return
 
     def _format_timestamp(self, timestamp: datetime) -> str:
         """Format timestamp for display.

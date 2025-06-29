@@ -141,7 +141,7 @@ class NotificationsScreen(BaseScreen):
 
     .filter-tab.active {
         background: $primary;
-        color: $text-on-primary;
+        color: $text-primary;
     }
 
     #notifications-timeline {

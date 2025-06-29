@@ -120,7 +120,7 @@
 }
 
 .input-field:focus {
-    border-color: #6a6a6a;
+    border: solid #6a6a6a;
 }
 
 /* Timeline Widget */
@@ -174,11 +174,11 @@
 
 .status-widget:hover {
     background: #3d3d3d;
-    border-color: #5a5a5a;
+    border: solid #5a5a5a;
 }
 
 .status-widget--focused {
-    border-color: #6a6a6a;
+    border: solid #6a6a6a;
     background: #3d3d3d;
 }
 
@@ -190,13 +190,12 @@
 
 .status-author-handle {
     color: #a0a0a0;
-    text-style: normal;
+    text-style: none;
 }
 
 .status-text {
     color: #e0e0e0;
     margin: 1 0;
-    line-height: 1.4;
 }
 
 .status-timestamp {
@@ -237,7 +236,7 @@
 }
 
 .compose-textarea:focus {
-    border-color: #6a6a6a;
+    border: solid #6a6a6a;
 }
 
 .compose-controls {
@@ -316,7 +315,7 @@
 
 /* Focus indicators */
 .focusable:focus {
-    border-color: #6a6a6a;
+    border: solid #6a6a6a;
     outline: solid #6a6a6a;
 }
 

@@ -198,7 +198,8 @@ class ComposeWidget(ModalScreen):
                 post_button.disabled = char_count == 0
 
         except Exception:
-            pass  # Widgets might not be mounted yet
+            # Widgets might not be mounted yet during initialization
+            return
 
     async def _post_status(self) -> None:
         """Post the composed status."""
