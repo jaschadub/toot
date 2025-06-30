@@ -76,8 +76,8 @@ def get_media_format(url: str, mimetype: Optional[str] = None) -> MediaFormat:
             return MediaFormat.VIDEO
         elif extension in MediaFormatConfig.SUPPORTED_AUDIO_FORMATS:
             return MediaFormat.AUDIO
-    except Exception:
-        # Failed to parse URL or determine format from URL
+    except (ValueError, OSError):
+        # Failed to parse URL or determine format from URL - continue to fallback detection
         pass
 
     # Try mimetypes module as last resort
@@ -90,8 +90,8 @@ def get_media_format(url: str, mimetype: Optional[str] = None) -> MediaFormat:
                 return MediaFormat.VIDEO
             elif guessed_type.startswith('audio/'):
                 return MediaFormat.AUDIO
-    except Exception:
-        # Failed to parse URL or determine format from URL
+    except (ValueError, TypeError):
+        # Failed to parse URL or determine format from URL - continue to fallback detection
         pass
 
     return MediaFormat.UNKNOWN

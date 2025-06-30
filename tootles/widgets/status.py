@@ -11,7 +11,8 @@ from textual.widget import Widget
 from textual.widgets import Button, Label, Static
 
 from ..api.models import Status
-from ..widgets.media.gallery import MediaGalleryWidget
+from ..media.manager import MediaManager
+from ..widgets.media import MediaGalleryWidget, MediaWidget
 
 if TYPE_CHECKING:
     from tootles.main import TootlesApp
@@ -78,18 +79,26 @@ class StatusWidget(Widget):
         margin-right: 1;
         min-width: 8;
     }
+
+    StatusWidget .media-text-indicator {
+        color: $text-muted;
+        text-style: italic;
+        margin: 1 0;
+    }
     """
 
-    def __init__(self, status: Status, app_ref: "TootlesApp", **kwargs):
+    def __init__(self, status: Status, app_ref: "TootlesApp", media_manager: MediaManager = None, **kwargs):
         """Initialize the status widget.
 
         Args:
             status: The Status object to display
             app_ref: Reference to the main application
+            media_manager: MediaManager instance for handling media previews
         """
         super().__init__(**kwargs)
         self.status = status
         self.app_ref = app_ref
+        self.media_manager = media_manager or getattr(app_ref, 'media_manager', None)
         self.can_focus = True
 
     def compose(self) -> ComposeResult:
@@ -126,12 +135,9 @@ class StatusWidget(Widget):
                 classes="status-content"
             )
 
-            # Media attachments
+            # Media attachments - use new media system
             if display_status.media_attachments:
-                yield MediaGalleryWidget(
-                    display_status.media_attachments,
-                    self.app_ref.media_manager
-                )
+                yield from self._create_media_widgets(display_status.media_attachments)
 
             # Action buttons
             with Horizontal(classes="action-buttons"):
@@ -161,6 +167,86 @@ class StatusWidget(Widget):
                     id="bookmark-btn",
                     variant=bookmark_variant
                 )
+
+    def _create_media_widgets(self, media_attachments):
+        """Create appropriate media widgets based on configuration and attachments.
+
+        Args:
+            media_attachments: List of media attachment objects
+
+        Yields:
+            Media widgets or text indicators
+        """
+        if not self.media_manager:
+            # Fallback to text indicators when no media manager
+            yield from self._create_text_indicators(media_attachments)
+            return
+
+        # Check if media previews are enabled
+        config = getattr(self.app_ref, 'config', None)
+        if config and hasattr(config, 'media') and not config.media.show_media_previews:
+            # Media previews disabled - use text indicators
+            yield from self._create_text_indicators(media_attachments)
+            return
+        elif config and hasattr(config, 'show_media_previews') and not config.show_media_previews:
+            # Legacy config check
+            yield from self._create_text_indicators(media_attachments)
+            return
+
+        try:
+            # Use new media system
+            if len(media_attachments) == 1:
+                # Single media item - use individual MediaWidget
+                yield MediaWidget(
+                    media_attachments[0],
+                    self.media_manager,
+                    size="thumbnail"
+                )
+            else:
+                # Multiple media items - use MediaGalleryWidget
+                yield MediaGalleryWidget(
+                    media_attachments,
+                    self.media_manager
+                )
+        except Exception:
+            # Graceful fallback to text indicators on any error
+            yield from self._create_text_indicators(media_attachments)
+
+    def _create_text_indicators(self, media_attachments):
+        """Create text-based media indicators as fallback.
+
+        Args:
+            media_attachments: List of media attachment objects
+
+        Yields:
+            Static widgets with text indicators
+        """
+        for attachment in media_attachments:
+            media_type = getattr(attachment, 'type', 'unknown')
+            description = getattr(attachment, 'description', None)
+
+            if media_type == 'image':
+                icon = "🖼️"
+                type_text = "Image"
+            elif media_type == 'video':
+                icon = "🎥"
+                type_text = "Video"
+            elif media_type == 'audio':
+                icon = "🎵"
+                type_text = "Audio"
+            elif media_type == 'gifv':
+                icon = "🎞️"
+                type_text = "GIF"
+            else:
+                icon = "📎"
+                type_text = "Media"
+
+            if description:
+                text = f"{icon} {type_text}: {description}"
+            else:
+                text = f"{icon} {type_text} attachment"
+
+            yield Static(text, classes="media-text-indicator")
 
     async def on_button_pressed(self, event: Button.Pressed) -> None:
         """Handle button press events."""

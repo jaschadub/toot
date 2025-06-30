@@ -67,7 +67,8 @@ class HomeScreen(BaseScreen):
                 # Timeline widget
                 self.timeline_widget = TimelineWidget(
                     empty_message="No posts in your timeline yet. Follow some accounts to see their posts here!",
-                    load_callback=self._load_timeline_statuses
+                    load_callback=self._load_timeline_statuses,
+                    media_manager=getattr(self.app_ref, 'media_manager', None)
                 )
                 yield self.timeline_widget
 

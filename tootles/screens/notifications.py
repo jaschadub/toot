@@ -42,7 +42,8 @@ class NotificationsScreen(BaseScreen):
             yield TimelineWidget(
                 self.app_ref,
                 timeline_type="notifications",
-                id="notifications-timeline"
+                id="notifications-timeline",
+                media_manager=getattr(self.app_ref, 'media_manager', None)
             )
 
     async def on_mount(self) -> None:

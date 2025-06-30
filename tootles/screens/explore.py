@@ -45,7 +45,8 @@ class ExploreScreen(BaseScreen):
                 yield TimelineWidget(
                     self.app_ref,
                     timeline_type="trending",
-                    id="trending-timeline"
+                    id="trending-timeline",
+                    media_manager=getattr(self.app_ref, 'media_manager', None)
                 )
 
     async def on_mount(self) -> None:
@@ -101,7 +102,8 @@ class ExploreScreen(BaseScreen):
             timeline = TimelineWidget(
                 self.app_ref,
                 timeline_type="trending",
-                id="trending-timeline"
+                id="trending-timeline",
+                media_manager=getattr(self.app_ref, 'media_manager', None)
             )
             content_area.mount(timeline)
             await timeline.load_timeline()
@@ -110,7 +112,8 @@ class ExploreScreen(BaseScreen):
             timeline = TimelineWidget(
                 self.app_ref,
                 timeline_type="public",
-                id="posts-timeline"
+                id="posts-timeline",
+                media_manager=getattr(self.app_ref, 'media_manager', None)
             )
             content_area.mount(timeline)
             await timeline.load_timeline()
@@ -119,7 +122,8 @@ class ExploreScreen(BaseScreen):
             timeline = TimelineWidget(
                 self.app_ref,
                 timeline_type="local",
-                id="local-timeline"
+                id="local-timeline",
+                media_manager=getattr(self.app_ref, 'media_manager', None)
             )
             content_area.mount(timeline)
             await timeline.load_timeline()
@@ -201,7 +205,8 @@ class ExploreScreen(BaseScreen):
                 self.app_ref,
                 timeline_type="search",
                 search_query=query,
-                id="search-timeline"
+                id="search-timeline",
+                media_manager=getattr(self.app_ref, 'media_manager', None)
             )
             content_area.mount(timeline)
             await timeline.load_timeline()

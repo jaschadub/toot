@@ -9,6 +9,7 @@ from textual.widget import Widget
 from textual.widgets import Label
 
 from ..api.models import Status
+from ..media.manager import MediaManager
 from .status import StatusWidget
 
 
@@ -59,6 +60,7 @@ class Timeline(Widget):
         statuses: Optional[List[Status]] = None,
         empty_message: str = "No statuses to display",
         app_ref=None,
+        media_manager: Optional[MediaManager] = None,
         **kwargs
     ):
         """Initialize the timeline widget.
@@ -67,6 +69,7 @@ class Timeline(Widget):
             statuses: Initial list of statuses to display
             empty_message: Message to show when timeline is empty
             app_ref: Reference to the main application
+            media_manager: MediaManager instance for handling media previews
         """
         super().__init__(**kwargs)
         self._statuses: List[Status] = statuses or []
@@ -74,6 +77,7 @@ class Timeline(Widget):
         self._loading = False
         self._status_widgets: List[StatusWidget] = []
         self.app_ref = app_ref
+        self.media_manager = media_manager or getattr(app_ref, 'media_manager', None)
 
     def compose(self) -> ComposeResult:
         """Compose the timeline layout."""
@@ -84,7 +88,7 @@ class Timeline(Widget):
                 yield Label(self._empty_message, classes="empty-message")
             else:
                 for status in self._statuses:
-                    status_widget = StatusWidget(status, self.app_ref)
+                    status_widget = StatusWidget(status, self.app_ref, media_manager=self.media_manager)
                     self._status_widgets.append(status_widget)
                     yield status_widget
 
@@ -124,7 +128,7 @@ class Timeline(Widget):
 
         # Add new status widgets
         for status in statuses:
-            status_widget = StatusWidget(status, self.app_ref)
+            status_widget = StatusWidget(status, self.app_ref, media_manager=self.media_manager)
             self._status_widgets.append(status_widget)
 
         self.refresh(recompose=True)
@@ -205,6 +209,7 @@ class TimelineWidget(Widget):
         load_callback: Optional[
             Callable[[str, Optional[str]], Awaitable[List[Status]]]
         ] = None,
+        media_manager: Optional[MediaManager] = None,
         **kwargs
     ):
         """Initialize the timeline widget.
@@ -213,14 +218,16 @@ class TimelineWidget(Widget):
             statuses: Initial list of statuses to display
             empty_message: Message to show when timeline is empty
             load_callback: Async callback for loading more statuses
+            media_manager: MediaManager instance for handling media previews
         """
         super().__init__(**kwargs)
-        self._timeline = Timeline(statuses, empty_message, app_ref=self.app)
+        self._timeline = Timeline(statuses, empty_message, app_ref=self.app, media_manager=media_manager)
         self._load_callback = load_callback
 
     def compose(self) -> ComposeResult:
         """Compose the timeline widget layout."""
         yield self._timeline
+
     async def on_mount(self) -> None:
         """Load initial timeline data when the widget is mounted."""
         if self._load_callback:
