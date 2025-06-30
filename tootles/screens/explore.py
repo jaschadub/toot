@@ -43,10 +43,10 @@ class ExploreScreen(BaseScreen):
             with Vertical(id="explore-content"):
                 # Trending Timeline (default)
                 yield TimelineWidget(
-                    self.app_ref,
+                    app_ref=self.app_ref,
                     timeline_type="trending",
                     id="trending-timeline",
-                    media_manager=getattr(self.app_ref, 'media_manager', None)
+                    media_manager=self.app_ref.media_manager
                 )
 
     async def on_mount(self) -> None:
@@ -100,30 +100,30 @@ class ExploreScreen(BaseScreen):
 
         if tab_type == "trending":
             timeline = TimelineWidget(
-                self.app_ref,
+                app_ref=self.app_ref,
                 timeline_type="trending",
                 id="trending-timeline",
-                media_manager=getattr(self.app_ref, 'media_manager', None)
+                media_manager=self.app_ref.media_manager
             )
             content_area.mount(timeline)
             await timeline.load_timeline()
 
         elif tab_type == "posts":
             timeline = TimelineWidget(
-                self.app_ref,
+                app_ref=self.app_ref,
                 timeline_type="public",
                 id="posts-timeline",
-                media_manager=getattr(self.app_ref, 'media_manager', None)
+                media_manager=self.app_ref.media_manager
             )
             content_area.mount(timeline)
             await timeline.load_timeline()
 
         elif tab_type == "local":
             timeline = TimelineWidget(
-                self.app_ref,
+                app_ref=self.app_ref,
                 timeline_type="local",
                 id="local-timeline",
-                media_manager=getattr(self.app_ref, 'media_manager', None)
+                media_manager=self.app_ref.media_manager
             )
             content_area.mount(timeline)
             await timeline.load_timeline()
@@ -202,11 +202,11 @@ class ExploreScreen(BaseScreen):
 
             # Create search results timeline
             timeline = TimelineWidget(
-                self.app_ref,
+                app_ref=self.app_ref,
                 timeline_type="search",
                 search_query=query,
                 id="search-timeline",
-                media_manager=getattr(self.app_ref, 'media_manager', None)
+                media_manager=self.app_ref.media_manager
             )
             content_area.mount(timeline)
             await timeline.load_timeline()

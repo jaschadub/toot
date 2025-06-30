@@ -204,25 +204,38 @@ class TimelineWidget(Widget):
 
     def __init__(
         self,
+        app_ref,
         statuses: Optional[List[Status]] = None,
         empty_message: str = "No statuses to display",
         load_callback: Optional[
             Callable[[str, Optional[str]], Awaitable[List[Status]]]
         ] = None,
+        timeline_type: str = "home",
+        search_query: Optional[str] = None,
         media_manager: Optional[MediaManager] = None,
-        **kwargs
+        **kwargs,
     ):
         """Initialize the timeline widget.
-
         Args:
-            statuses: Initial list of statuses to display
-            empty_message: Message to show when timeline is empty
-            load_callback: Async callback for loading more statuses
-            media_manager: MediaManager instance for handling media previews
+            app_ref: Reference to the main application.
+            statuses: Initial list of statuses to display.
+            empty_message: Message to show when timeline is empty.
+            load_callback: Async callback for loading more statuses.
+            timeline_type: The type of timeline to load.
+            search_query: The search query for search timelines.
+            media_manager: MediaManager instance for handling media previews.
         """
         super().__init__(**kwargs)
-        self._timeline = Timeline(statuses, empty_message, app_ref=self.app, media_manager=media_manager)
+        self.app_ref = app_ref
+        self._timeline = Timeline(
+            statuses=statuses,
+            empty_message=empty_message,
+            app_ref=self.app_ref,
+            media_manager=media_manager
+        )
         self._load_callback = load_callback
+        self.timeline_type = timeline_type
+        self.search_query = search_query
 
     def compose(self) -> ComposeResult:
         """Compose the timeline widget layout."""
@@ -231,19 +244,21 @@ class TimelineWidget(Widget):
     async def on_mount(self) -> None:
         """Load initial timeline data when the widget is mounted."""
         if self._load_callback:
-            try:
-                self._timeline.set_loading(True)
-                initial_statuses = await self._load_callback("home", None)
-                if initial_statuses:
-                    self._timeline.update_statuses(initial_statuses)
-                else:
-                    # No statuses returned, keep empty message
-                    pass
-            except Exception:
-                # Handle errors gracefully - the empty message will be shown
-                self.log.warning("Failed to load timeline data")
-            finally:
-                self._timeline.set_loading(False)
+            await self.load_timeline()
+    async def load_timeline(self) -> None:
+        """Load timeline statuses based on the timeline type."""
+        if not self._load_callback:
+            return
+
+        try:
+            self._timeline.set_loading(True)
+            initial_statuses = await self._load_callback(self.timeline_type, None)
+            if initial_statuses:
+                self._timeline.update_statuses(initial_statuses)
+        except Exception as e:
+            self.log.warning(f"Failed to load timeline data: {e}")
+        finally:
+            self._timeline.set_loading(False)
 
     async def on_timeline_load_more(self, event: Timeline.LoadMore) -> None:
         """Handle load more requests."""

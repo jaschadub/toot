@@ -120,7 +120,7 @@ class TootlesApp(App):
                 config = self.config_manager.config
                 if config.instance_url and config.access_token:
                     yield TimelineWidget(
-                        empty_message="No posts in your timeline yet. Follow some accounts to see their posts here!",
+                        app_ref=self,
                         load_callback=self._load_home_timeline,
                         id="main-timeline"
                     )
@@ -136,7 +136,7 @@ class TootlesApp(App):
         yield Footer()
 
     # Navigation Actions
-    def action_show_home(self) -> None:
+    async def action_show_home(self) -> None:
         """Show home timeline."""
         if not self.api_client:
             self.notify(
@@ -146,9 +146,9 @@ class TootlesApp(App):
             return
 
         self.current_timeline = "home"
-        self.replace_main_content(
+        await self.replace_main_content(
             TimelineWidget(
-                empty_message="No posts in your timeline yet. Follow some accounts to see their posts here!",
+                app_ref=self,
                 load_callback=self._load_home_timeline,
                 id="main-timeline"
             )
@@ -176,7 +176,7 @@ class TootlesApp(App):
 
         self.push_screen(ExploreScreen(self))
 
-    def action_show_bookmarks(self) -> None:
+    async def action_show_bookmarks(self) -> None:
         """Show bookmarks timeline."""
         if not self.api_client:
             self.notify(
@@ -186,14 +186,15 @@ class TootlesApp(App):
             return
 
         self.current_timeline = "bookmarks"
-        self.replace_main_content(
+        await self.replace_main_content(
             TimelineWidget(
+                app_ref=self,
                 empty_message="No bookmarked posts yet.",
                 id="main-timeline"
             )
         )
 
-    def action_show_favorites(self) -> None:
+    async def action_show_favorites(self) -> None:
         """Show favorites timeline."""
         if not self.api_client:
             self.notify(
@@ -203,8 +204,9 @@ class TootlesApp(App):
             return
 
         self.current_timeline = "favorites"
-        self.replace_main_content(
+        await self.replace_main_content(
             TimelineWidget(
+                app_ref=self,
                 empty_message="No favorite posts yet.",
                 id="main-timeline"
             )
@@ -280,10 +282,10 @@ class TootlesApp(App):
 
         self.notify(f"Switched to {next_theme} theme", severity="success")
 
-    def replace_main_content(self, new_widget) -> None:
+    async def replace_main_content(self, new_widget) -> None:
         """Replace the main content area with a new widget."""
         main_content = self.query_one("#main-content", Vertical)
-        main_content.remove_children()
+        await main_content.remove_children()
         main_content.mount(new_widget)
 
     async def reload_api_client(self) -> None:
@@ -298,9 +300,9 @@ class TootlesApp(App):
             # Replace welcome message with timeline if we were showing it
             try:
                 self.query_one("#welcome-message")
-                self.replace_main_content(
+                await self.replace_main_content(
                     TimelineWidget(
-                        empty_message="No posts in your timeline yet. Follow some accounts to see their posts here!",
+                        app_ref=self,
                         load_callback=self._load_home_timeline,
                         id="main-timeline"
                     )

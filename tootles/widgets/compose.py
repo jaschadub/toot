@@ -3,6 +3,7 @@
 from typing import TYPE_CHECKING, Optional
 
 from textual.app import ComposeResult
+from textual.binding import Binding
 from textual.containers import Horizontal, Vertical
 from textual.screen import ModalScreen
 from textual.widgets import Button, Label, Select, TextArea
@@ -14,6 +15,11 @@ if TYPE_CHECKING:
 
 class ComposeWidget(ModalScreen):
     """Modal screen for composing new toots."""
+
+    BINDINGS = [
+        Binding("escape", "cancel", "Cancel"),
+        Binding("ctrl+s", "post", "Post"),
+    ]
 
     DEFAULT_CSS = """
     ComposeWidget {
@@ -127,11 +133,12 @@ class ComposeWidget(ModalScreen):
                 )
 
             # Text area
-            yield TextArea(
-                text=self.initial_content,
-                placeholder="What's on your mind?",
-                id="compose-text"
+            text_area = TextArea(
+                self.initial_content,
+                id="compose-text",
             )
+            text_area.show_line_numbers = False
+            yield text_area
 
             # Controls
             with Horizontal(classes="compose-controls"):
@@ -235,3 +242,7 @@ class ComposeWidget(ModalScreen):
     def action_cancel(self) -> None:
         """Cancel compose (Escape key)."""
         self.app.pop_screen()
+
+    def action_post(self) -> None:
+        """Post the status."""
+        self.run_worker(self._post_status())
