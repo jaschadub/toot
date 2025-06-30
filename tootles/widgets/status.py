@@ -266,13 +266,13 @@ class StatusWidget(Widget):
             compose_widget = ComposeWidget(self.app_ref, reply_to=self.status)
             self.app.push_screen(compose_widget)
         except Exception as e:
-            self.app.notify(f"Failed to open reply: {e}", severity="error")
+            self.app_ref.notify(f"Failed to open reply: {e}", severity="error")
 
     async def handle_reblog(self) -> None:
         """Handle reblog/boost of status."""
         try:
             if not self.app_ref.api_client:
-                self.app.notify("No API client available", severity="error")
+                self.app_ref.notify("No API client available", severity="error")
                 return
 
             display_status = self.status.reblog if self.status.reblog else self.status
@@ -281,68 +281,69 @@ class StatusWidget(Widget):
                 await self.app_ref.api_client.unreblog_status(display_status.id)
                 display_status.reblogged = False
                 display_status.reblogs_count -= 1
-                self.app.notify("Unboosted", severity="success")
+                self.app_ref.notify("Unboosted", severity="success")
             else:
                 await self.app_ref.api_client.reblog_status(display_status.id)
                 display_status.reblogged = True
                 display_status.reblogs_count += 1
-                self.app.notify("Boosted!", severity="success")
+                self.app_ref.notify("Boosted!", severity="success")
 
             # Update button appearance
             self.update_action_buttons()
 
         except Exception as e:
-            self.app.notify(f"Failed to reblog: {e}", severity="error")
+            self.app_ref.notify(f"Failed to reblog: {e}", severity="error")
 
     async def handle_favorite(self) -> None:
         """Handle favorite/unfavorite of status."""
         try:
             if not self.app_ref.api_client:
-                self.app.notify("No API client available", severity="error")
+                self.app_ref.notify("No API client available", severity="error")
                 return
 
             display_status = self.status.reblog if self.status.reblog else self.status
 
             if display_status.favourited:
-                await self.app_ref.api_client.unfavourite_status(display_status.id)
-                display_status.favourited = False
-                display_status.favourites_count -= 1
-                self.app.notify("Unfavorited", severity="success")
+                updated_status = await self.app_ref.api_client.unfavourite_status(display_status.id)
+                self.app_ref.notify("Unfavorited", severity="success")
             else:
-                await self.app_ref.api_client.favourite_status(display_status.id)
-                display_status.favourited = True
-                display_status.favourites_count += 1
-                self.app.notify("Favorited!", severity="success")
+                updated_status = await self.app_ref.api_client.favourite_status(display_status.id)
+                self.app_ref.notify("Favorited!", severity="success")
+
+            # Update status from API response
+            display_status.favourited = updated_status.favourited
+            display_status.favourites_count = updated_status.favourites_count
 
             # Update button appearance
             self.update_action_buttons()
 
         except Exception as e:
-            self.app.notify(f"Failed to favorite: {e}", severity="error")
+            self.app_ref.notify(f"Failed to favorite: {e}", severity="error")
 
     async def handle_bookmark(self) -> None:
         """Handle bookmark/unbookmark of status."""
         try:
             if not self.app_ref.api_client:
-                self.app.notify("No API client available", severity="error")
+                self.app_ref.notify("No API client available", severity="error")
                 return
 
             display_status = self.status.reblog if self.status.reblog else self.status
 
             if display_status.bookmarked:
-                await self.app_ref.api_client.unbookmark_status(display_status.id)
-                display_status.bookmarked = False
-                self.app.notify("Bookmark removed", severity="success")
+                updated_status = await self.app_ref.api_client.unbookmark_status(display_status.id)
+                self.app_ref.notify("Bookmark removed", severity="success")
             else:
-                await self.app_ref.api_client.bookmark_status(display_status.id)
-                display_status.bookmarked = True
-                self.app.notify("Bookmarked!", severity="success")
+                updated_status = await self.app_ref.api_client.bookmark_status(display_status.id)
+                self.app_ref.notify("Bookmarked!", severity="success")
+
+            # Update status from API response
+            display_status.bookmarked = updated_status.bookmarked
 
             # Update button appearance
             self.update_action_buttons()
 
         except Exception as e:
-            self.app.notify(f"Failed to bookmark: {e}", severity="error")
+            self.app_ref.notify(f"Failed to bookmark: {e}", severity="error")
 
     def update_action_buttons(self) -> None:
         """Update action button appearance based on status state."""
