@@ -190,13 +190,13 @@
 
 .status-author-handle {
     color: #6c757d;
-    text-style: normal;
+    text-style: none;
 }
 
 .status-text {
     color: #2d2d2d;
     margin: 1 0;
-    line-height: 1.4;
+    
 }
 
 .status-timestamp {
