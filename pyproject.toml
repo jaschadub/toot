@@ -32,11 +32,12 @@ dependencies = [
     "tomlkit>=0.12.0",
     "python-dateutil>=2.8.0",
     "beautifulsoup4>=4.11.0",
-    "pillow>=9.0.0",
+    "pillow>=10.0.0",
     "fuzzywuzzy>=0.18.0",
     "python-levenshtein>=0.20.0",
     "wcwidth>=0.1.7",
     "watchdog>=3.0.0",
+    "aiofiles>=23.0.0",
 ]
 
 [project.optional-dependencies]

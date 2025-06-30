@@ -206,7 +206,7 @@ class SettingsScreen(BaseScreen):
             # Update inputs with default values
             self.query_one("#instance-url", Input).value = default_config.instance_url
             self.query_one("#access-token", Input).value = default_config.access_token
-            
+
             # Handle theme select more carefully
             theme_select = self.query_one("#theme-select", Select)
             available_themes = self.theme_manager.get_available_themes()
@@ -215,7 +215,7 @@ class SettingsScreen(BaseScreen):
             elif available_themes:
                 # Fall back to first available theme if default not available
                 theme_select.value = available_themes[0]
-            
+
             self.query_one("#hot-reload-checkbox", Checkbox).value = (
                 default_config.enable_theme_hot_reload
             )

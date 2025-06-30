@@ -11,6 +11,7 @@ from textual.widget import Widget
 from textual.widgets import Button, Label, Static
 
 from ..api.models import Status
+from ..widgets.media.gallery import MediaGalleryWidget
 
 if TYPE_CHECKING:
     from tootles.main import TootlesApp
@@ -124,6 +125,13 @@ class StatusWidget(Widget):
                 self._format_content(display_status),
                 classes="status-content"
             )
+
+            # Media attachments
+            if display_status.media_attachments:
+                yield MediaGalleryWidget(
+                    display_status.media_attachments,
+                    self.app_ref.media_manager
+                )
 
             # Action buttons
             with Horizontal(classes="action-buttons"):
@@ -329,20 +337,6 @@ class StatusWidget(Widget):
 
         # Add content
         content.append(text_content)
-
-        # Add media indicator
-        if status.media_attachments:
-            media_count = len(status.media_attachments)
-            media_types = {m.type for m in status.media_attachments}
-
-            if "image" in media_types:
-                content.append(f"\n📷 {media_count} image(s)", style="dim")
-            elif "video" in media_types:
-                content.append(f"\n🎥 {media_count} video(s)", style="dim")
-            elif "audio" in media_types:
-                content.append(f"\n🎵 {media_count} audio file(s)", style="dim")
-            else:
-                content.append(f"\n📎 {media_count} attachment(s)", style="dim")
 
         # Add poll indicator
         if status.poll:

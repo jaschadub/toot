@@ -1,5 +1,6 @@
 """Main Tootles application."""
 
+import logging
 from typing import List, Optional
 
 from textual.app import App, ComposeResult
@@ -11,6 +12,7 @@ from textual.widgets import Footer, Header, Static
 from tootles.api.client import MastodonClient
 from tootles.api.models import Status
 from tootles.config.manager import ConfigManager
+from tootles.media.manager import MediaManager
 from tootles.screens.account import AccountScreen
 from tootles.screens.explore import ExploreScreen
 from tootles.screens.help import HelpScreen
@@ -19,6 +21,8 @@ from tootles.screens.settings import SettingsScreen
 from tootles.themes.manager import ThemeManager
 from tootles.widgets.compose import ComposeWidget
 from tootles.widgets.timeline import TimelineWidget
+
+logger = logging.getLogger(__name__)
 
 
 class TootlesApp(App):
@@ -48,6 +52,7 @@ class TootlesApp(App):
         super().__init__()
         self.config_manager = ConfigManager()
         self.theme_manager = ThemeManager(self.config_manager)
+        self.media_manager = MediaManager(self.config_manager.config.media)
         self.api_client: Optional[MastodonClient] = None
         self.current_timeline = "home"
 
@@ -91,15 +96,15 @@ class TootlesApp(App):
             statuses = await self._load_home_timeline("home", None)
             if statuses:
                 timeline_widget.update_statuses(statuses)
-        except Exception:
+        except Exception as e:
             # Timeline widget might not exist yet or other error
-            pass
+            logger.debug(f"Failed to update timeline: {e}")
         finally:
             try:
                 timeline_widget = self.query_one("#main-timeline", TimelineWidget)
                 timeline_widget.set_loading(False)
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug(f"Failed to set timeline loading state: {e}")
 
     def compose(self) -> ComposeResult:
         """Create the main application layout."""

@@ -2,7 +2,41 @@
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List, Tuple
+
+
+@dataclass
+class MediaConfig:
+    """Media-specific configuration."""
+
+    # Display settings
+    show_media_previews: bool = True
+    inline_image_max_height: int = 20  # Terminal rows
+    thumbnail_size: Tuple[int, int] = (150, 150)  # Pixels
+
+    # Cache settings
+    memory_cache_size: int = 50  # MB for thumbnails
+    disk_cache_size: int = 500   # MB for full images
+    cache_directory: str = "~/.cache/tootles/media"
+    cache_expiry_days: int = 7
+
+    # External viewers
+    external_viewers: Dict[str, str] = field(default_factory=lambda: {
+        "image": "feh",
+        "video": "mpv",
+        "audio": "mpv"
+    })
+
+    # Format support
+    supported_image_formats: List[str] = field(default_factory=lambda: [
+        "jpg", "jpeg", "png", "gif", "webp", "svg"
+    ])
+    supported_video_formats: List[str] = field(default_factory=lambda: [
+        "mp4", "webm", "mov", "avi"
+    ])
+    supported_audio_formats: List[str] = field(default_factory=lambda: [
+        "mp3", "ogg", "wav", "m4a"
+    ])
 
 
 @dataclass
@@ -39,6 +73,9 @@ class TootlesConfig:
 
     # Custom timelines
     timelines: Dict[str, Dict[str, str]] = field(default_factory=dict)
+
+    # Media configuration
+    media: MediaConfig = field(default_factory=MediaConfig)
 
     def get_theme_directory(self) -> Path:
         """Get the theme directory as a Path object."""
