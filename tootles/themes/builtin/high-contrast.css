@@ -128,7 +128,7 @@
 }
 
 .input-field:focus {
-    border-color: #ffff00;
+    border: solid #ffff00;
     background: #000000;
     color: #ffff00;
 }
@@ -185,11 +185,11 @@
 .status-widget:hover {
     background: #ffffff;
     color: #000000;
-    border-color: #000000;
+    border: solid #000000;
 }
 
 .status-widget--focused {
-    border-color: #ffff00;
+    border: solid #ffff00;
     background: #000000;
     color: #ffff00;
 }
@@ -249,7 +249,7 @@
 }
 
 .compose-textarea:focus {
-    border-color: #ffff00;
+    border: solid #ffff00;
     color: #ffff00;
 }
 
@@ -334,7 +334,7 @@
 
 /* Focus indicators */
 .focusable:focus {
-    border-color: #ffff00;
+    border: solid #ffff00;
     outline: solid #ffff00;
 }
 
