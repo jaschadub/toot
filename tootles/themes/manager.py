@@ -95,13 +95,14 @@ class ThemeManager:
 
     def get_theme_path(self, theme_name: str) -> Optional[Path]:
         """Get the path to a theme file."""
+        theme_name_lower = theme_name.lower()
         # Check user themes first (they override builtin)
-        if theme_name in self.user_themes:
-            return self.user_themes[theme_name]
+        if theme_name_lower in self.user_themes:
+            return self.user_themes[theme_name_lower]
 
         # Check builtin themes
-        if theme_name in self.builtin_themes:
-            return self.builtin_themes[theme_name]
+        if theme_name_lower in self.builtin_themes:
+            return self.builtin_themes[theme_name_lower]
 
         return None
 

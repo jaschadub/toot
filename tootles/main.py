@@ -278,7 +278,7 @@ class TootlesApp(App):
         # Apply new theme
         await self.theme_manager.load_theme(next_theme)
         if self.theme_manager.current_css:
-            self.stylesheet.sources.clear()
+            self.stylesheet.clear()
             self.stylesheet.add_source(self.theme_manager.current_css)
 
         self.notify(f"Switched to {next_theme} theme", severity="success")
