@@ -24,7 +24,7 @@ class StatusWidget(Widget):
     DEFAULT_CSS = """
     StatusWidget {
         height: auto;
-        margin: 1 0;
+        margin: 0 0 1 0;
         padding: 1;
         border: solid $surface;
         background: $surface;

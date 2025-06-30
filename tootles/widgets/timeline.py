@@ -227,11 +227,12 @@ class TimelineWidget(Widget):
         """
         super().__init__(**kwargs)
         self.app_ref = app_ref
+        self.media_manager = media_manager or getattr(app_ref, 'media_manager', None)
         self._timeline = Timeline(
             statuses=statuses,
             empty_message=empty_message,
             app_ref=self.app_ref,
-            media_manager=media_manager
+            media_manager=self.media_manager
         )
         self._load_callback = load_callback
         self.timeline_type = timeline_type

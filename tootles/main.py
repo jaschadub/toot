@@ -122,6 +122,7 @@ class TootlesApp(App):
                     yield TimelineWidget(
                         app_ref=self,
                         load_callback=self._load_home_timeline,
+                        media_manager=self.media_manager,
                         id="main-timeline"
                     )
                 else:
@@ -277,7 +278,7 @@ class TootlesApp(App):
         # Apply new theme
         await self.theme_manager.load_theme(next_theme)
         if self.theme_manager.current_css:
-            self.stylesheet.clear()
+            self.stylesheet.sources.clear()
             self.stylesheet.add_source(self.theme_manager.current_css)
 
         self.notify(f"Switched to {next_theme} theme", severity="success")

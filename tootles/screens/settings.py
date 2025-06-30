@@ -258,6 +258,11 @@ class SettingsScreen(BaseScreen):
     DEFAULT_CSS = """
     SettingsScreen {
         background: $surface;
+    }
+
+    SettingsScreen VerticalScroll {
+        height: 1fr;
+        width: 1fr;
         padding: 1;
     }
 

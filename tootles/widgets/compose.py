@@ -44,6 +44,17 @@ class ComposeWidget(ModalScreen):
         margin-bottom: 1;
     }
 
+    ComposeWidget .compose-title {
+        text-style: bold;
+        color: $primary;
+    }
+
+    ComposeWidget .compose-instructions {
+        color: $text-muted;
+        text-style: italic;
+        margin-bottom: 1;
+    }
+
     ComposeWidget .compose-controls {
         height: 3;
         margin-top: 1;
@@ -118,6 +129,13 @@ class ComposeWidget(ModalScreen):
                     f"0/{self.max_chars}",
                     classes="char-counter",
                     id="char-counter"
+                )
+
+            # Instructions
+            if not self.reply_to:
+                yield Label(
+                    "Type your message below. Use Ctrl+S to post or Escape to cancel.",
+                    classes="compose-instructions"
                 )
 
             # Reply info if replying
